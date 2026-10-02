@@ -108,21 +108,22 @@ From the Problem Definition. **Targets are not yet set.**
 ## 9. Decision log
 
 1. **[Decision made]** Is v1 a personal tool plus portfolio case study, or a pilot with outside users? This changes R1, R12 and the regulatory stance.
-   1. **Personal v1 tool.**
+   1. Personal v1 tool.
 2. **[Decision made]** Which interface: the existing Claude project and Notion, or a new app?
    1. Depends on solution discovery. Prototype via Lovable, Claude and Figma Make.
    2. Infrastructure needs are a source of truth for data (currently Notion), an input GUI (currently Claude), chat (Claude) and a plan overview (Notion). The direction is for all user interfaces to sit in one place (a web app, e.g. built in Lovable). Data pipes and agent structure are to be confirmed, which needs a technical infrastructure spike (added to the milestones).
-3. Which physio reviews the phase definitions and exit criteria?
+3.  **[Decision made]** Which physio reviews the phase definitions and exit criteria?
    1. A friend who is a physio and a basketball coach, so has specific knowledge of this use case. He will review.
-4. What regulatory position (wellness coaching versus medical-device claim)?
-   1. **Wellness.**
-5. How many pilot users, and what recruitment route?
+4.  **[Decision made]** What regulatory position (wellness coaching versus medical-device claim)?
+   1. Wellness.
+5. **[Decision made]** How many pilot users, and what recruitment route?
    1. No pilot is planned currently.
    2. **Still open:** whether a future pilot stays calf-only or lets people choose from a few common sports injuries.
-6. Data handling: where health data lives, retention, and GDPR basis if any external user is added.
-   1. Lives in Notion for now. A future version depends on the technical infrastructure spike.
-7. Success-metric targets (adherence, time to first intake).
-   1. For any future injury and any future user: recovery earlier than or on time with the clinical projection, if the user has met the plan adherence target, with no re-injury within a set period.
+6. **[Decision made]** Data handling: where health data lives, retention, and GDPR basis if any external user is added.
+   1. **[Decision made]** Lives in Notion for now.
+   2.  **Still open:** A future version depends on the technical infrastructure spike.
+7. **[Partially open]** Success-metric targets (adherence, time to first intake).
+   1. **[Decision made]** For any future injury and any future user: recovery earlier than or on time with the clinical projection, if the user has met the plan adherence target, with no re-injury within a set period.
    2. **Still open:** the adherence target and the re-injury window (x) are not yet defined.
 
 ## 10. Rough milestones
