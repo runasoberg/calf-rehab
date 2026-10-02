@@ -42,6 +42,13 @@ Rules:
 ## Git and GitHub
 - Develop on the branch assigned for the session; commit with clear messages and push to it.
 - Do not open a pull request unless asked. Do not push to `main` directly. Do not force-push or rewrite history without explicit permission.
+- You may merge a pull request without asking again only when all of these hold:
+  - you opened it in this session, and the user asked for it to be opened;
+  - it has no unresolved review comments and no merge conflict, and any checks that exist have passed;
+  - it changes only docs, READMEs or prototypes (not `final_product/`);
+  - you use a normal merge commit, not a squash or rebase.
+- Before merging, state in one line what you are merging and into which branch. Afterwards, fast-forward the working branch to `main`.
+- Never merge a pull request someone else opened, one with a failing or pending check, or one touching `final_product/`, without an explicit "merge it" from the user. Never merge by pushing to `main`.
 - Use `git mv` for moves and renames so history is kept, and check no links or paths still point at the old location.
 - After a branch's pull request is merged, fast-forward the branch to the latest `main` before follow-up work.
 
