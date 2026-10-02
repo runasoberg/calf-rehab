@@ -4,11 +4,11 @@ Source: `docs/claude_1st_draft_PRD.md` (branch `claude/product-management-spec-8
 
 ## Assumptions (correct any that are wrong)
 
-- Mobile-first and responsive: daily check-in happens on a phone, plan overview on desktop.
+- Web app, desktop-first (1440px), graceful down to tablet. Not a mobile app (confirmed by you).
 - The user is you alone (PRD Decision 1). No multi-user, auth, payments or clinician messaging.
 - All data is mocked, no backend. Data pipes and agent structure belong to the infrastructure spike.
 - Screens cover PRD R1 to R9 as UI only, not working logic.
-- Figma Make (named in the PRD) is out of this round. The same prompts can be reused there later.
+- Figma Make is in scope: prompt D in `prompts.md`.
 
 ## The five directions
 
@@ -53,7 +53,7 @@ Walk each prototype with the same three tasks: (a) log "felt tight after the wal
 
 ## Verification checklist
 
-- All six screens reachable in every direction, at 390px and on desktop.
+- All six screens reachable in every direction, at desktop width.
 - Red-flag screen present and dominant in every direction; no streak-shaming; evidence label on every exercise.
 - Sample data identical across all five.
 - The five are visibly different in layout and navigation. If two feel alike, regenerate the weaker with a sharper bet.

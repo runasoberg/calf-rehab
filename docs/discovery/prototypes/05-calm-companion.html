@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calf Rehab Coach: Calm Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;500&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#f4ede1; --cream:#fbf7ef; --clay:#b9714f; --moss:#6b7f5e; --moss-d:#4d5e43; --bark:#3e342b; --stone:#8a7d6e; --line:#e3d8c6; --fog:#ece3d3;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif; --sans:'Nunito',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--sand);color:var(--bark);font-family:var(--sans);font-size:18px;line-height:1.6;min-height:100vh;
+  background-image:radial-gradient(900px 600px at 15% 10%,#efe4d0 0,transparent 70%),radial-gradient(800px 600px at 90% 95%,#e8e3d0 0,transparent 70%);}
+button{font:inherit;color:inherit;cursor:pointer}
+.tag{font:600 11px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--stone);border:1px solid var(--line);border-radius:99px;padding:1px 9px;margin-left:8px;vertical-align:middle;background:var(--cream)}
+header{display:flex;justify-content:space-between;align-items:center;padding:28px 56px}
+.brand{font-family:var(--serif);font-size:20px;color:var(--moss-d);cursor:pointer;background:none;border:0}
+nav{display:flex;gap:26px;align-items:center}
+nav button.link{background:none;border:0;color:var(--stone);font-size:16px;padding:4px 0;border-bottom:1px solid transparent}
+nav button.link:hover,nav button.link.on{color:var(--bark);border-color:var(--clay)}
+nav button.sos{border:2px solid #b3261e;background:#fff;color:#8c1d18;font-weight:600;font-size:15px;border-radius:6px;padding:6px 14px}
+main{min-height:calc(100vh - 170px);display:flex;align-items:center;justify-content:center;padding:10px 40px 40px}
+.stage{width:100%;max-width:760px;text-align:center;animation:fade .9s var(--ease)}
+.wide{max-width:1000px}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h1{font-family:var(--serif);font-weight:300;font-size:56px;line-height:1.15;margin:0 0 18px;letter-spacing:-.01em}
+h2{font-family:var(--serif);font-weight:400;font-size:34px;margin:0 0 12px}
+h3{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 6px}
+p{margin:0 0 16px}
+.soft{color:var(--stone)} .small{font-size:15px}
+.ctx{font-size:15px;color:var(--stone);margin-bottom:34px}
+.big{display:inline-block;background:var(--moss);color:#fff;border:0;border-radius:99px;padding:20px 52px;font-family:var(--serif);font-size:24px;transition:background .6s var(--ease),transform .6s var(--ease);margin-top:14px}
+.big:hover{background:var(--moss-d);transform:translateY(-2px)}
+.big.alt{background:transparent;color:var(--moss-d);border:1.5px solid var(--moss)}
+.quiet{background:none;border:0;color:var(--stone);text-decoration:underline;text-underline-offset:4px;font-size:15px;margin:14px 8px 0}
+.quiet:hover{color:var(--bark)}
+.opts{display:flex;flex-direction:column;gap:12px;max-width:560px;margin:24px auto}
+.opt{background:var(--cream);border:1.5px solid var(--line);border-radius:18px;padding:16px 22px;text-align:left;transition:all .5s var(--ease)}
+.opt:hover{border-color:var(--moss)} .opt.on{border-color:var(--moss);background:#e9eedf}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0 22px}
+.chip{background:var(--cream);border:1.5px solid var(--line);border-radius:99px;min-width:52px;padding:8px 16px;transition:all .4s var(--ease)}
+.chip.on{background:var(--moss);color:#fff;border-color:var(--moss)}
+.trail{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:46px;font-size:14px;color:var(--stone)}
+.dot{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--stone);display:inline-block;vertical-align:middle;margin-right:6px}
+.dot.done{background:var(--moss);border-color:var(--moss)} .dot.now{border-color:var(--clay);box-shadow:0 0 0 4px #b9714f33}
+.bar{width:36px;height:1px;background:var(--line)}
+.card{background:var(--cream);border:1px solid var(--line);border-radius:22px;padding:28px 34px;text-align:left;margin:20px 0}
+.mic{width:130px;height:130px;border-radius:50%;border:0;background:var(--clay);color:#fff;font-size:15px;box-shadow:0 0 0 14px #b9714f22;margin:22px 0;transition:all .6s var(--ease)}
+.mic:hover{box-shadow:0 0 0 24px #b9714f22}
+.quote{font-family:var(--serif);font-style:italic;font-size:30px;line-height:1.35;margin:10px 0 26px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left;margin:10px 0}
+.field{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:14px 18px;animation:fade .9s var(--ease) both}
+.field small{display:block;color:var(--stone);font-size:13px}
+.field b{font-family:var(--serif);font-weight:400;font-size:21px}
+.field.miss{border-style:dashed;background:transparent}
+.ev{display:inline-block;font-size:13px;font-weight:600;border-radius:99px;padding:2px 12px;margin:2px 6px 2px 0}
+.ev.c{background:#dfe7d3;color:#3f5033} .ev.x{background:#f1e2c2;color:#7a5a17} .ev.g{background:#e4e0da;color:#5a5249} .ev.n{background:#f0d9d0;color:#7d3f27}
+.ex{font-size:19px}
+.rungs{display:flex;gap:6px;margin:10px 0}
+.rung{flex:1;font-size:12.5px;text-align:center;padding:8px 2px;border-radius:10px;background:var(--fog);color:var(--stone);line-height:1.3}
+.rung.now{background:#f1e2c2;color:#7a5a17}
+.tl{position:relative;text-align:left;margin:0 auto;padding-left:34px;border-left:2px solid var(--line);max-width:640px}
+.ph{position:relative;padding:0 0 30px}
+.ph:before{content:"";position:absolute;left:-43px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--sand);border:2px solid var(--stone)}
+.ph.past:before{background:var(--moss);border-color:var(--moss)} .ph.cur:before{background:var(--clay);border-color:var(--clay);box-shadow:0 0 0 6px #b9714f33}
+.ph.future{opacity:.55}
+.crit{list-style:none;padding:0;margin:8px 0}
+.crit li{padding:6px 0 6px 28px;position:relative;font-size:16px}
+.crit li:before{position:absolute;left:0}
+.crit .m:before{content:"\25CF";color:var(--moss)} .crit .o:before{content:"\25CB";color:var(--clay)} .crit .u:before{content:"\25CC";color:var(--stone)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;text-align:left}
+.stepper{display:flex;align-items:center;justify-content:center;gap:26px;margin:20px 0}
+.stepper button{width:64px;height:64px;border-radius:50%;border:1.5px solid var(--moss);background:var(--cream);font-size:28px}
+.stepper span{font-family:var(--serif);font-size:72px;min-width:120px}
+.decision{border:2px solid var(--moss);background:#eef1e5;border-radius:24px;padding:28px 34px;text-align:left}
+.decision .verdict{font-family:var(--serif);font-size:44px;margin:0}
+.note{background:#f1e8d6;border-radius:14px;padding:14px 18px;font-size:15px;text-align:left;margin:16px 0}
+footer.about{max-width:760px;margin:0 auto;padding:30px 20px 60px;text-align:left;font-size:15px;color:var(--stone);border-top:1px solid var(--line)}
+footer.about b{color:var(--bark)}
+svg.spark{width:100%;height:60px}
+/* RED FLAG: calm styling dropped entirely */
+body.rf{background:#fff;background-image:none;color:#000;font-family:Arial,Helvetica,sans-serif}
+body.rf header{background:#fff;border-bottom:3px solid #000}
+body.rf .brand{font-family:Arial;color:#000}
+body.rf .stage{animation:none;max-width:900px;text-align:left}
+.rf-h{background:#b3261e;color:#fff;padding:18px 26px;font:700 34px Arial;margin:0}
+.rf-box{border:4px solid #b3261e;padding:22px 26px;margin:0 0 22px;background:#fff}
+.rf-box.em{background:#b3261e;color:#fff;border-color:#000}
+.rf-box h2{font:700 30px Arial;margin:0 0 10px} .rf-box ul{font-size:20px;margin:8px 0 12px;padding-left:24px} .rf-box p{font-size:20px}
+.rf-btn{font:700 20px Arial;background:#000;color:#fff;border:0;padding:14px 26px;margin:6px 10px 0 0;border-radius:0}
+.rf-rec{border:2px solid #000;padding:14px 20px;font:700 18px Arial;background:#fff}
+@media(max-width:1000px){header{padding:20px 24px}h1{font-size:40px}.cols,.fields{grid-template-columns:1fr}main{padding:10px 20px 30px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <button class="brand" data-a="go" data-v="home">Calf Rehab Coach <span class="tag">prototype</span></button>
+  <nav>
+    <button class="link" id="snd" data-a="sound">Ambient sound: off</button>
+    <button class="link" data-a="go" data-v="journey" id="nj">My journey</button>
+    <button class="sos" data-a="go" data-v="redflag">Something feels wrong</button>
+  </nav>
+</header>
+<main><div class="stage" id="stage"></div></main>
+<div id="foot"></div>
+
+<script>
+// ---------- state & sample data ----------
+const S={screen:'home',step:0,missed:false,escalated:null,sound:false,
+ done:{ci:false,plan:false,reflect:false},
+ ci:{heard:false,rest:null,act:null,stiff:null,safe:null},
+ ex:0,feel:null,
+ intake:{clin:null,mech:null,onset:null,dvt:[],ach:[]},
+ test:{l:18,r:21,hop:'na',pain:'no'}};
+const EX=[
+ {n:'Seated heel raises',d:'2 sets of 15. Rise slowly for two counts, lower for two.',ev:['c','n']},
+ {n:'Standing heel raises, both legs',d:'3 sets of 12. Hold a worktop for balance.',ev:['c','n']},
+ {n:'Isometric calf hold',d:'5 holds of 30 seconds, on your toes against a wall, at a comfortable effort.',ev:['x']},
+ {n:'Single-leg balance',d:'3 holds of 30 seconds each side, near something to grab.',ev:['g']},
+ {n:'Eccentric lowers',d:'3 sets of 10. Rise on both legs, then lower slowly on the injured leg for three counts.',ev:['x']}];
+const EVL={c:'Calf-specific',x:'Extrapolated (from hamstring/tendon research)',g:'General',n:'No female-specific research found'};
+const evh=a=>a.map(k=>`<span class="ev ${k}">${EVL[k]}</span>`).join('');
+const PH=['Protect','Early loading','Progressive strengthening','Plyometric','Sport-specific and contact'];
+const $=s=>document.querySelector(s);
+const trail=()=>{const t=[['ci','Check-in'],['plan','Session'],['reflect','Reflect']];
+ const cur=t.findIndex(x=>!S.done[x[0]]);
+ return `<div class="trail">${t.map((x,i)=>`<span><span class="dot ${S.done[x[0]]?'done':i===cur?'now':''}"></span>${x[1]}</span>${i<2?'<span class="bar"></span>':''}`).join('')}</div>`};
+const hopLbl={yes:'Pain-free',no:'Painful',na:'Not tested today'};
+const sym=()=>Math.round(S.test.l/S.test.r*100);
+
+// ---------- screens ----------
+const V={
+home(){
+ const d=S.done;
+ let h,b,a,av;
+ if(S.escalated)return `<h1>Your plan is paused.</h1><p>A ${S.escalated} escalation was recorded. Please follow the steps you were given and speak to a clinician. The plan stays paused until a clinician has reviewed you.</p><button class="big alt" data-a="go" data-v="redflag">See the steps again</button>`;
+ if(S.missed&&!d.ci){h='Welcome back.';b='No catching up needed. We carry on from where you are today.';}
+ else if(!d.ci){h='Good morning.';b='One thing today. A short check-in, in your own words.';}
+ else if(!d.plan){h='Thank you. That is noted.';b='Next, a gentle session of five movements.';}
+ else if(!d.reflect){h='Well done for showing up.';b='One last thing: a moment to reflect.';}
+ else{h='That is today, done.';b='Rest well. Nothing else is needed.';}
+ const act=!d.ci?['Begin check-in','ci']:!d.plan?["Start today's session",'plan']:!d.reflect?['Reflect','reflect']:['See my journey','journey'];
+ return `<div class="ctx">Day 34 since injury, Phase 3 of 5. Typical range, not a promise.</div>
+ <h1>${h}</h1><p class="soft">${b}</p>
+ <button class="big" data-a="go" data-v="${act[1]}">${act[0]}</button>${trail()}
+ <p class="small soft" style="margin-top:40px">Prototype: preview as <button class="quiet" style="margin:0" data-a="missed" data-v="0">a normal day</button> or <button class="quiet" style="margin:0" data-a="missed" data-v="1">after a missed day</button></p>`},
+
+intake(){
+ const I=S.intake,s=S.step,back=s>0?`<button class="quiet" data-a="prev">Back</button>`:'';
+ const single=(k,q,list,sub)=>`<h2>${q}</h2>${sub?`<p class="soft">${sub}</p>`:''}<div class="opts">${list.map(o=>`<button class="opt ${I[k]===o[0]?'on':''}" data-a="ans" data-k="${k}" data-v="${o[0]}">${o[1]}</button>`).join('')}</div>`;
+ const multi=(k,q,list,sub)=>`<h2>${q}</h2><p class="soft">${sub}</p><div class="opts">${list.map(o=>`<button class="opt ${I[k].includes(o[0])?'on':''}" data-a="tog" data-k="${k}" data-v="${o[0]}">${o[1]}</button>`).join('')}</div><button class="big" data-a="next" ${I[k].length?'':'disabled style="opacity:.4"'}>Continue</button>`;
+ let body;
+ if(s===0)body=`<h1>First, a safety check.</h1><p class="soft">Five short questions before we build anything. If something needs a clinician's eyes, I will say so plainly.</p><button class="big" data-a="next">Start</button><br><button class="quiet" data-a="blockdemo">Prototype: jump to the blocked state</button>`;
+ else if(s===1)body=single('clin','Has a clinician assessed your calf?',[['yes','Yes, a doctor or physio has examined it'],['no','No, not yet']]);
+ else if(s===2)body=single('mech','How did it happen?',[['sprint','Pushing off or sprinting'],['land','Landing or changing direction'],['other','Something else or I am not sure']]);
+ else if(s===3)body=single('onset','How did it start?',[['sudden','Suddenly, at one moment'],['gradual','Gradually over some days']]);
+ else if(s===4)body=multi('dvt','Any of these apply?',[['swell','Swelling in the whole lower leg, or warmth and redness'],['hist','A past blood clot, or a close relative with one'],['recent','Recent long travel, surgery or time immobile'],['preg','Pregnant, or taking hormonal medication'],['none','None of these']],'Choose all that apply. These are risk factors, not a diagnosis.');
+ else if(s===5)body=multi('ach','Did you notice any of these at the time?',[['pop','A pop or a feeling of being kicked in the back of the leg'],['gap','A gap or dent you can feel above the heel'],['toes','Cannot rise onto your toes on that leg'],['none','None of these']],'Choose all that apply.');
+ else{const r=intakeResult();
+  if(r.length)body=`<div class="card" style="border:2px solid #b3261e;background:#fff"><h2 style="color:#8c1d18">I cannot build a plan yet.</h2><p>${r.join('</p><p>')}</p><p><b>Please see a clinician</b> before starting any exercises. If you have whole-leg swelling with warmth or redness, or a tight, pale or tingling leg, this is an emergency: call 999.</p><p class="small soft">Nothing here is a diagnosis. I am pausing because these answers need a person to look at you.</p></div><button class="big alt" data-a="startover">Start the questions again</button>`;
+  else{S.intakeOk=true;body=`<h1>Thank you. That is all I need.</h1><p class="soft">Your answers are saved. Nothing here suggests the plan should not go ahead, and a clinician has assessed you.</p><button class="big" data-a="go" data-v="home">Continue</button>`}}
+ return `<div class="small soft">Safety check${s>0&&s<6?` · ${s} of 5`:''} <span class="tag">prototype</span></div>${body}<br>${back}`},
+
+ci(){
+ const c=S.ci,s=S.step;let b;
+ const chips=(k,vals,u)=>`<div class="chips">${vals.map(v=>`<button class="chip ${c[k]===v?'on':''}" data-a="set" data-k="${k}" data-v="${v}">${v}${u||''}</button>`).join('')}</div>`;
+ if(s===0)b=`<h1>How has it been?</h1><p class="soft">Say it however you like. I will do the filling in.</p><button class="mic" data-a="speak">Tap and speak<br><span class="small">prototype: plays a sample</span></button><br><button class="quiet" data-a="speak">or type instead</button>`;
+ else if(s===1){const miss=c.rest==null||c.act==null||c.stiff==null;
+  b=`<div class="small soft">I heard</div><div class="quote">"felt tight after the walk, a bit sore this morning"</div>
+  <div class="fields">
+   <div class="field"><small>Walking quality · heard</small><b>Tight after the walk</b></div>
+   <div class="field" style="animation-delay:.5s"><small>Next-day soreness · inferred, mild</small><b>A bit sore this morning</b></div>
+   <div class="field miss" style="animation-delay:1s"><small>Pain at rest · not heard</small><b>${c.rest==null?'?':c.rest+'/10'}</b></div>
+   <div class="field miss" style="animation-delay:1.3s"><small>Pain during activity · not heard</small><b>${c.act==null?'?':c.act+'/10'}</b></div>
+   <div class="field miss" style="animation-delay:1.6s"><small>Morning stiffness · not heard</small><b>${c.stiff==null?'?':c.stiff+' min'}</b></div></div>
+  <div class="card" style="text-align:center"><h3>Three numbers decide your plan, and I did not hear them.</h3><p class="small soft">Pain at rest, 0 to 10</p>${chips('rest',[0,1,2,3,4,5])}<p class="small soft">Pain during activity, 0 to 10</p>${chips('act',[0,1,2,3,4,5,6])}<p class="small soft">Morning stiffness, minutes</p>${chips('stiff',[0,5,10,15,20,30],'')}
+  <button class="quiet" data-a="same">Same as yesterday (0, 2, 10)</button></div>
+  <button class="big" data-a="next" ${miss?'disabled style="opacity:.4"':''}>Continue</button>`}
+ else if(s===2)b=`<h1>One last question.</h1><p class="soft">Anything new or different today?</p><div class="opts"><button class="opt" data-a="safe" data-v="ok">Nothing new</button><button class="opt" data-a="safe" data-v="flag">Yes: new sharp pain, a visible dent, swelling, warmth or redness, or a tight, pale or tingling leg</button></div>`;
+ else b=`<h1>All noted.</h1><div class="fields" style="margin-top:24px"><div class="field"><small>Pain at rest</small><b>${c.rest}/10</b></div><div class="field"><small>Pain during activity</small><b>${c.act}/10</b></div><div class="field"><small>Morning stiffness</small><b>${c.stiff} min</b></div><div class="field"><small>Walking · soreness</small><b>Tight · mild</b></div></div><p class="small soft">You can change any of this later. Your clinician's advice always comes first.</p><button class="big" data-a="cidone">Continue</button>`;
+ return b+trail()},
+
+plan(){
+ const i=S.ex,e=EX[i];
+ return `<div class="small soft">Movement ${i+1} of ${EX.length}</div><h1 style="margin-top:8px">${e.n}</h1><p class="ex">${e.d}</p><div style="margin:22px 0">${evh(e.ev)}</div>
+ <p class="small soft">Easy does it. Stop if the pain climbs past what you noted, and ask your clinician about pain limits. Doses are a draft, awaiting physio review.</p>
+ <button class="big" data-a="exnext">${i<EX.length-1?'Done, next':'Done, that is all five'}</button><br>${i>0?'<button class="quiet" data-a="exprev">Previous</button>':''}${trail()}`},
+
+reflect(){
+ const f=S.feel;
+ const chips=[['easy','Easy'],['right','About right'],['hard','Harder than I expected'],['pain','Pain went up']];
+ let note='';
+ if(f==='pain'||f==='hard')note=`<div class="note">Noted. Please keep an eye on how it feels over the next two to three days. If pain gets worse after 48 to 72 hours, or you get a new sharp pain, use "Something feels wrong". Ask your clinician about anything you are unsure of.</div>`;
+ const dec=f?`<div class="decision"><div class="small soft">Today's decision</div><p class="verdict">Hold in Phase 3</p><p>Retest in 5 to 7 days. A hold is not a setback; it means the criteria are not all met yet.</p><ul class="crit"><li class="m">Pain during activity 2/10 (needed: 2 or below)</li><li class="m">Morning stiffness 10 min (needed: under 15)</li><li class="o">Heel-raise symmetry 86% (needed: 90%, a working target borrowed from hamstring evidence)</li><li class="u">Single-leg hop: not yet tested</li></ul><button class="big alt" data-a="refdone">Finish for today</button></div>`:'';
+ return `<h1>How did that sit with you?</h1><div class="chips">${chips.map(c=>`<button class="chip ${f===c[0]?'on':''}" data-a="feel" data-v="${c[0]}">${c[1]}</button>`).join('')}</div>${note}${dec}${trail()}`},
+
+tests(){
+ const T=S.test,s=S.step;let b;
+ const stp=(k,lab)=>`<h2>${lab}</h2><p class="soft">As many slow, full raises as you can, on one leg. Stop when form slips.</p><div class="stepper"><button data-a="dec" data-k="${k}">&minus;</button><span>${T[k]}</span><button data-a="inc" data-k="${k}">+</button></div><button class="big" data-a="next">Continue</button>`;
+ if(s===0)b=`<h1>A gentle check on strength.</h1><p class="soft">Heel raises, then hops, then a pain check. About ten minutes. Skip any you do not feel ready for.</p><button class="big" data-a="next">Begin</button>`;
+ else if(s===1)b=stp('l','Injured leg (left): single-leg heel raises');
+ else if(s===2)b=stp('r','Other leg (right): single-leg heel raises');
+ else if(s===3)b=`<h2>Single and triple hop</h2><p class="soft">Only if your clinician has cleared hopping. Was the hop pain-free?</p><div class="opts">${['yes','no','na'].map(v=>`<button class="opt ${T.hop===v?'on':''}" data-a="ans2" data-k="hop" data-v="${v}">${{yes:'Yes, pain-free',no:'No, it hurt',na:'Not today (not yet tested)'}[v]}</button>`).join('')}</div><button class="big" data-a="next">Continue</button>`;
+ else if(s===4)b=`<h2>Pain check</h2><p class="soft">Did the tests bring on pain above your usual?</p><div class="opts">${[['no','No, as usual'],['yes','Yes, more than usual']].map(v=>`<button class="opt ${T.pain===v[0]?'on':''}" data-a="ans2" data-k="pain" data-v="${v[0]}">${v[1]}</button>`).join('')}</div><button class="big" data-a="next">See what it means</button>`;
+ else{const y=sym(),ok=y>=90,why=[];
+  if(!ok)why.push(`Heel-raise symmetry is ${y}% (${T.l} of ${T.r}), below the 90% working target.`);
+  if(T.hop==='na')why.push('The single-leg hop has not been tested yet.');
+  if(T.hop==='no')why.push('The hop was painful. It needs to be pain-free.');
+  if(T.pain==='yes')why.push('Pain went above your usual during the tests. Please mention this to your clinician.');
+  const adv=ok&&T.hop==='yes'&&T.pain==='no';
+  b=`<div class="decision" style="text-align:center"><div class="small soft">Gate review</div><p class="verdict">${adv?'Advance to Phase 4':'Hold in Phase 3'}</p><p>${adv?'Every criterion for this gate is met.':'Retest in 5 to 7 days.'}</p></div>
+  <div class="cols" style="margin-top:20px"><div class="card"><h3>Symmetry</h3><p style="font-size:44px;font-family:var(--serif);margin:0">${y}%</p><p class="small soft">${T.l} injured / ${T.r} other. The 90% target is a working target, borrowed from hamstring evidence. It is not a calf-specific standard.</p></div>
+  <div class="card"><h3>${adv?'Why':'The reasons'}</h3><ul class="crit">${(adv?['Symmetry at or above 90%','Hop pain-free','No extra pain']:why).map(x=>`<li class="${adv?'m':'o'}">${x}</li>`).join('')}</ul><p class="small soft">Hop: ${hopLbl[T.hop]}. Time since injury is context only, never the reason.</p></div></div>
+  <button class="big alt" data-a="go" data-v="journey">See my journey</button>`}
+ return `<div class="small soft">Strength and hop tests <span class="tag">prototype</span></div>${b}${s>0&&s<5?'<br><button class="quiet" data-a="prev">Back</button>':''}`},
+
+journey(){
+ const exits=[['m','Pain during activity 2/10 or less (now 2/10)'],['m','Morning stiffness under 15 min (now 10 min)'],['o','Heel-raise symmetry 90% or more (now 86%, left 18, right 21)'],['u','Single-leg hop pain-free (not yet tested)']];
+ const lad=(n,t)=>`<div class="card"><h3>${n}</h3><div class="rungs">${['Walking','Jogging','Running and cutting','Non-contact drills','Full training','Match play'].map(r=>`<div class="rung">${r}</div>`).join('')}</div><p class="small soft">${t}</p></div>`;
+ const sp=(pts,col)=>{const mx=Math.max(...pts),mn=Math.min(...pts);return `<svg class="spark" viewBox="0 0 200 60"><polyline fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" points="${pts.map((p,i)=>`${i*200/(pts.length-1)},${55-(mx===mn?25:(p-mn)/(mx-mn)*48)}`).join(' ')}"/></svg>`};
+ return `<div class="wide stage" style="max-width:1000px;animation:none"><h1 style="font-size:46px">My journey</h1><p class="soft">Day 34 since injury. Typical range, not a promise. Progress here follows how you are moving, not the calendar.</p>
+ ${S.escalated?`<div class="rf-rec" style="margin:20px 0;text-align:left">Escalation recorded: ${S.escalated}. Plan paused pending clinician review.</div>`:''}
+ <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:50px;text-align:left;margin-top:40px">
+ <div><div class="tl">${PH.map((p,i)=>`<div class="ph ${i<2?'past':i===2?'cur':'future'}"><h3>Phase ${i+1}: ${p}</h3>${i<2?'<p class="small soft">Completed.</p>':i===2?`<p class="small soft">You are here. Exit criteria, draft and awaiting physio review:</p><ul class="crit">${exits.map(e=>`<li class="${e[0]}">${e[1]}</li>`).join('')}</ul><p class="small"><b>Today's decision: hold, retest in 5 to 7 days.</b></p><p class="small soft">The 90% target is a working target, borrowed from hamstring evidence.</p>`:'<p class="small soft">Ahead.</p>'}</div>`).join('')}</div>
+ <h2 style="margin-top:10px">Return to sport</h2><p class="small soft">Each sport is cleared separately, and never two high-demand contact sports in the same week.</p>${lad('Basketball','Not yet. Starts after Phase 4. Clearance is its own decision.')}${lad('Tag rugby','Not yet. Starts after Phase 4. Cleared in a different week from basketball.')}</div>
+ <div><h3>Gentle trends <span class="tag">illustrative</span></h3>
+ <div class="card"><p class="small soft" style="margin:0">Pain during activity: 2/10 now</p>${sp([5,4,4,3,3,2,2],'#b9714f')}<p class="small soft" style="margin:0">Strength, injured leg: 18 raises</p>${sp([6,9,11,14,16,18],'#6b7f5e')}<p class="small soft" style="margin:0">Symmetry: 86%, target 90%</p>${sp([55,63,70,78,83,86],'#8a7d6e')}<p class="small soft">Earlier values are illustrative. Uncertainty is real: a single test can vary by a raise or two.</p></div>
+ <div class="card"><h3>When you are ready</h3><button class="quiet" style="margin:6px 0;display:block" data-a="go" data-v="tests">Try the strength and hop tests</button><button class="quiet" style="margin:6px 0;display:block" data-a="go" data-v="intake" data-reset="1">Review my safety check</button><button class="quiet" style="margin:6px 0;display:block" data-a="go" data-v="about">What this direction is betting on</button></div></div></div></div>`},
+
+about(){return `<h1 style="font-size:40px">About this prototype</h1><p class="soft">Direction 5: Calm Companion.</p>`},
+
+redflag(){
+ return `<h1 class="rf-h">STOP. Your plan has stopped.</h1><div style="padding:20px 0">
+ <div class="rf-box em"><h2>EMERGENCY: call 999 or go to A&amp;E now</h2><ul><li>Swelling of the whole leg, with warmth or redness</li><li>A leg that feels tight, looks pale, or is tingling</li></ul><p>Do not wait. Do not exercise. Do not drive yourself.</p><button class="rf-btn" style="background:#fff;color:#b3261e" data-a="esc" data-v="EMERGENCY">I am calling 999</button></div>
+ <div class="rf-box"><h2>URGENT REVIEW: contact your clinician or NHS 111 today</h2><ul><li>Pain getting worse 48 to 72 hours after activity</li><li>A new sharp pain in the calf</li><li>A visible dent or gap in the calf or above the heel</li></ul><p>Do not do today's session. Do not restart it until a clinician has reviewed you. Ask your clinician before taking any painkillers or anti-inflammatories.</p><button class="rf-btn" data-a="esc" data-v="URGENT REVIEW">I will contact a clinician today</button></div>
+ <div class="rf-rec">${S.escalated?`Recorded: ${S.escalated} escalation. Plan paused.`:'The app will record that an escalation occurred when you choose one of the options above.'}</div>
+ <p style="font-size:16px;margin-top:20px">This app does not diagnose and cannot tell you what is wrong. <button class="rf-btn" style="font-size:15px;padding:8px 14px" data-a="go" data-v="home">Leave this page (plan stays paused)</button></p></div>`}
+};
+function intakeResult(){const I=S.intake,r=[];
+ if(!I.clin||!I.mech||!I.onset||!I.dvt.length||!I.ach.length)r.push('Some of the safety questions are not answered yet.');
+ if(I.clin==='no')r.push('A clinician has not assessed this injury. I can only coach after one has.');
+ if(I.dvt.some(x=>x!=='none'))r.push('Your answers include possible clot risk factors, which need a clinician to review.');
+ if(I.ach.some(x=>x!=='none'))r.push('Your answers include signs that can go with a more serious tendon injury. That needs a clinician to check.');
+ return r}
+
+// ---------- render & events ----------
+function render(){
+ document.body.classList.toggle('rf',S.screen==='redflag');
+ $('#stage').innerHTML=V[S.screen]();
+ $('#stage').className='stage'+(S.screen==='journey'?' wide':'');
+ $('#nj').classList.toggle('on',S.screen==='journey');
+ $('#snd').textContent='Ambient sound: '+(S.sound?'on':'off');
+ $('#foot').innerHTML=(S.screen==='about'||S.screen==='journey')?`<footer class="about"><b>What this direction is betting on</b><br>1. Showing less on screen improves adherence, especially when returning after a missed day.<br>2. One clear next action, plus a quiet dot trail, makes logging feel like a ritual rather than a chore.<br>3. Detail (phase, criteria, tests) can live one step away on My journey without losing trust, as long as red flags stay plain and unmissable.</footer>`:'';
+ if(S.screen==='about'){$('#stage').innerHTML+=`<p>Everything is hard-coded sample data; the speech, sound toggle and trends are faked. The red-flag screen deliberately drops the calm styling.</p><button class="big alt" data-a="go" data-v="journey">Back to my journey</button>`}
+ window.scrollTo(0,0)}
+function go(s){S.screen=s;S.step=0;render()}
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-a]');if(!t||t.disabled)return;
+ const a=t.dataset.a,v=t.dataset.v,k=t.dataset.k,I=S.intake;
+ if(t.style.opacity==='0.4')return;
+ switch(a){
+ case 'go':if(t.dataset.reset)S.intake={clin:null,mech:null,onset:null,dvt:[],ach:[]};if(v==='plan')S.ex=0;go(v);return;
+ case 'missed':S.missed=v==='1';S.screen='home';break;
+ case 'sound':S.sound=!S.sound;break;
+ case 'next':S.step++;break;
+ case 'prev':S.step=Math.max(0,S.step-1);break;
+ case 'ans':I[k]=v;S.step++;break;
+ case 'ans2':S.test[k]=v;break;
+ case 'tog':{let l=I[k];if(v==='none')l=l.includes('none')?[]:['none'];else{l=l.filter(x=>x!=='none');l=l.includes(v)?l.filter(x=>x!==v):l.concat(v)}I[k]=l;break}
+ case 'blockdemo':S.intake={clin:'no',mech:'sprint',onset:'sudden',dvt:['none'],ach:['none']};S.step=6;break;
+ case 'startover':S.intake={clin:null,mech:null,onset:null,dvt:[],ach:[]};S.step=0;break;
+ case 'speak':S.step=1;break;
+ case 'set':S.ci[k]=+v;break;
+ case 'same':S.ci.rest=0;S.ci.act=2;S.ci.stiff=10;break;
+ case 'safe':if(v==='flag'){go('redflag');return}S.step=3;break;
+ case 'cidone':S.done.ci=true;go('home');return;
+ case 'exnext':if(S.ex<EX.length-1)S.ex++;else{S.done.plan=true;go('home');return}break;
+ case 'exprev':S.ex--;break;
+ case 'feel':S.feel=v;break;
+ case 'refdone':S.done.reflect=true;go('home');return;
+ case 'inc':S.test[k]=Math.min(60,S.test[k]+1);break;
+ case 'dec':S.test[k]=Math.max(0,S.test[k]-1);break;
+ case 'esc':S.escalated=v;break;
+ }
+ render()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.screen!=='redflag')go('home')});
+render();
+</script>
+</body>
+</html>

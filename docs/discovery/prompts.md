@@ -11,7 +11,7 @@ PRODUCT IN ONE PARAGRAPH
 A conversational, criteria-gated recovery coach. It replaces four things that currently live in separate tools: a source of truth for data, a daily input/logging screen, a coach chat, and a plan overview. Progression through rehab phases is gated on pain trend, functional tests and limb symmetry, never on elapsed time alone. The real friction is adherence and logging effort, not content quality, so logging must be near-zero effort. It coaches and never diagnoses.
 
 LOW-FIDELITY MEANS
-Clickable, mobile-first (390px) and usable on desktop. All data is hard-coded sample data, no backend, no auth, no real AI. Placeholder icons and illustration are fine. Pixel polish is NOT the goal. Layout, information hierarchy, input mode, metaphor and tone ARE the goal. Keep each prototype's code small and readable. Mark anything faked with a subtle "prototype" tag.
+Clickable. This is a WEB APP designed desktop-first (1440px wide canvas, using the space with sidebars, multi-column layouts and panels as appropriate to the direction), not a mobile app. It should degrade gracefully to tablet width, but do not design phone layouts or tab bars. All data is hard-coded sample data, no backend, no auth, no real AI. Placeholder icons and illustration are fine. Pixel polish is NOT the goal. Layout, information hierarchy, input mode, metaphor and tone ARE the goal. Keep each prototype's code small and readable. Mark anything faked with a subtle "prototype" tag.
 
 SIX SCREENS (every direction must include all six, reachable by navigation)
 1. Safety intake: confirm a clinician has assessed the injury; capture mechanism, onset, DVT risk factors, Achilles-rupture signs. If incomplete or if red flags are present, BLOCK plan creation and show a "see a clinician" path. Include this blocked state.
@@ -43,7 +43,7 @@ Own your direction fully: its own layout system, type, colour tokens, navigation
 ```
 DIRECTION 1: CLINICAL NOTEBOOK (conservative)
 Bet: a familiar, trustworthy dashboard is enough, and it is the lowest-risk replacement for Notion plus a form.
-Metaphor: a well-organised patient record. Left sidebar (bottom tab bar on mobile): Today, Check-in, Tests, Progress, Log. Neutral palette, one calm accent, system or humanist sans, generous whitespace, tables and cards, standard form controls (sliders, radio groups, checkboxes). Phase shown as a horizontal stepper with a criteria checklist beneath. Chat is a collapsible side panel, secondary to forms. Tone: professional, plain, reassuring without over-promising. Avoid illustration, gradients and animation beyond basic transitions.
+Metaphor: a well-organised patient record. Left sidebar: Today, Check-in, Tests, Progress, Log. Neutral palette, one calm accent, system or humanist sans, generous whitespace, tables and cards, standard form controls (sliders, radio groups, checkboxes). Phase shown as a horizontal stepper with a criteria checklist beneath. Chat is a collapsible side panel, secondary to forms. Tone: professional, plain, reassuring without over-promising. Avoid illustration, gradients and animation beyond basic transitions.
 ```
 
 ```
@@ -83,3 +83,11 @@ Start by setting up the landing page and the empty routes only.
 Lovable sequence: set Project Knowledge to A, send C, then send each B block (prefix with "Build route /N now:") one message at a time, reviewing the preview between each.
 
 Claude sequence: for each prototype, send A followed by one B block and ask for a single self-contained HTML file. Run the five in separate chats or subagents so the styles do not bleed together.
+
+## D. Figma Make prompt (send as one prompt, or paste A then one B block per Make file)
+
+```
+Build a clickable web-app prototype (desktop-first, 1440px frames, not mobile) called "Calf Rehab Coach: discovery". It has a landing page with five cards, one per interface direction, each opening a separate flow. Each direction must look, navigate and sound completely different and must not share components, colours or layout with the others. Use the SHARED BRIEF (section A above) for product, the six screens, sample data and safety rules, and the five DIRECTION blocks (section B) for each flow. Hard-code all data, no backend. Build direction 1 fully first, then 2, 3, 4, 5. Keep red-flag escalation plain and dominant in every direction.
+```
+
+If Figma Make struggles with five flows in one file, create one Make file per direction using A plus a single B block.

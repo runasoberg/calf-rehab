@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Performance Lab - Calf Rehab Coach</title>
+<style>
+:root{--bg:#0d0f12;--p1:#14181d;--p2:#1b2027;--ln:#2a313a;--tx:#d9dfe7;--dim:#8793a2;--acc:#4cc9f0;--ok:#5bd68a;--warn:#f2b84b;--red:#ff4d4f;
+--mono:ui-monospace,"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;--sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 var(--sans)}
+.mono,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+#app{display:grid;grid-template-columns:200px minmax(0,1fr) 320px;min-height:100vh;max-width:1440px;margin:0 auto}
+nav{background:var(--p1);border-right:1px solid var(--ln);padding:16px 0;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.brand{padding:0 16px 14px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--acc)}
+.brand small{display:block;color:var(--dim);letter-spacing:0;margin-top:2px}
+nav button{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:0;border-left:3px solid transparent;color:var(--dim);padding:10px 16px;font:13px var(--sans);cursor:pointer}
+nav button b{font-family:var(--mono);font-weight:400;color:var(--dim);width:16px}
+nav button:hover{background:var(--p2);color:var(--tx)}
+nav button.on{border-left-color:var(--acc);color:var(--tx);background:var(--p2)}
+nav button.esc{color:#ff9a9b}
+.navfoot{margin-top:auto;padding:12px 16px;color:var(--dim);font-size:11px;font-family:var(--mono)}
+main{padding:20px 24px 40px;min-width:0}
+aside{background:var(--p1);border-left:1px solid var(--ln);padding:16px;position:sticky;top:0;height:100vh;overflow:auto;display:flex;flex-direction:column;gap:14px}
+h1{font:600 18px var(--mono);margin:0 0 4px;letter-spacing:.02em}
+h2{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin:0 0 10px}
+.sub{color:var(--dim);margin:0 0 16px;max-width:80ch}
+.card{background:var(--p1);border:1px solid var(--ln);border-radius:6px;padding:14px;margin-bottom:14px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g32{grid-template-columns:3fr 2fr}
+.tag{display:inline-block;font:10px var(--mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--ln);color:var(--dim);border-radius:3px;padding:1px 5px;vertical-align:middle}
+.tag.proto{border-style:dashed}
+.tag.ok{color:var(--ok);border-color:var(--ok)}.tag.no{color:var(--warn);border-color:var(--warn)}.tag.ev{color:var(--acc);border-color:#2b6d84}
+.tag.nt{color:var(--dim)}
+button.b,.chip{font:12px var(--mono);background:var(--p2);color:var(--tx);border:1px solid var(--ln);border-radius:4px;padding:6px 10px;cursor:pointer}
+button.b:hover,.chip:hover{border-color:var(--acc)}
+.chip.on{background:var(--acc);color:#05202a;border-color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+button.pri{background:var(--acc);color:#05202a;border-color:var(--acc);font-weight:600}
+.stp{display:inline-flex;align-items:center;border:1px solid var(--ln);border-radius:4px;overflow:hidden}
+.stp button{background:var(--p2);border:0;color:var(--tx);width:30px;height:30px;font:16px var(--mono);cursor:pointer}
+.stp button:hover{background:#2a323c}
+.stp output{min-width:44px;text-align:center;font:600 15px var(--mono)}
+.row{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--ln)}
+.row:first-of-type{border-top:0}.row .l{flex:1}.row .l small{display:block;color:var(--dim)}
+.dim{color:var(--dim)}.ok{color:var(--ok)}.warn{color:var(--warn)}
+.big{font:600 34px var(--mono)}
+.conf{font:11px var(--mono);color:var(--dim)}
+.bar{height:10px;background:#0a0c0e;border:1px solid var(--ln);border-radius:2px;display:flex;overflow:hidden}
+.bar i{display:block;height:100%}
+.meter{display:flex;gap:3px}.meter i{flex:1;height:10px;background:#0a0c0e;border:1px solid var(--ln)}
+.meter i.f{background:var(--ok);border-color:var(--ok)}
+.banner{border:1px solid var(--warn);background:#2a2210;color:#ffdca0;border-radius:6px;padding:10px 14px;margin-bottom:14px}
+.banner.stop{border:2px solid var(--red);background:#2b0b0c;color:#ffd5d6;font-weight:600}
+fieldset{border:1px solid var(--ln);border-radius:6px;margin:0 0 12px;padding:10px 14px}
+legend{font:11px var(--mono);letter-spacing:.1em;color:var(--dim);text-transform:uppercase;padding:0 6px}
+label.o{display:flex;gap:8px;align-items:center;padding:3px 0;cursor:pointer}
+select,input[type=text]{background:#0a0c0e;color:var(--tx);border:1px solid var(--ln);border-radius:4px;padding:6px 8px;font:13px var(--sans);width:100%}
+input[type=checkbox],input[type=radio]{accent-color:var(--acc)}
+.cmd{background:#07090b;border:1px solid var(--ln);border-radius:6px;font:12px var(--mono)}
+.cmd .log{padding:8px 10px;height:130px;overflow:auto;color:var(--dim)}.cmd .log div{margin-bottom:3px}.cmd .log .u{color:var(--tx)}
+.cmd form{display:flex;border-top:1px solid var(--ln)}.cmd span{padding:7px 0 7px 10px;color:var(--acc)}
+.cmd input{border:0;background:none;flex:1;font:12px var(--mono);color:var(--tx);padding:7px;outline:none}
+.utt{font:15px var(--mono);padding:12px;background:#0a0c0e;border:1px dashed var(--ln);border-radius:4px}
+.utt mark{background:none;color:var(--acc);border-bottom:1px solid var(--acc)}
+.field{display:grid;grid-template-columns:150px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--ln)}
+.field:first-of-type{border-top:0}
+.src{font:10px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+.src.x{color:var(--acc)}.src.c{color:var(--warn)}
+/* escalation */
+.tier{border:3px solid var(--red);background:#1e0709;border-radius:6px;padding:18px;margin-bottom:14px}
+.tier.em{background:var(--red);color:#fff;border-color:#fff}
+.tier h3{margin:0 0 6px;font:700 22px var(--sans);letter-spacing:.02em}
+.tier ul{margin:8px 0;padding-left:20px}.tier li{margin:3px 0}
+.tier.em .b{background:#fff;color:#7a0000;border-color:#fff;font-weight:700}
+.tier .b{font-family:var(--sans);font-size:14px;padding:9px 14px}
+.stack{display:flex;gap:2px;height:22px}.stack i{flex:1;background:#0a0c0e;border:1px solid var(--ln)}
+svg text{font-family:var(--mono)}
+footer{margin-top:24px;border-top:1px solid var(--ln);padding-top:14px}
+footer ol{margin:6px 0 0;padding-left:20px;color:var(--tx)}
+@media(max-width:1100px){#app{grid-template-columns:170px 1fr}aside{position:static;height:auto;grid-column:1/-1;border-left:0;border-top:1px solid var(--ln)}nav{height:auto;min-height:100%}.g2,.g3,.g32{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="app">
+<nav aria-label="Screens">
+  <div class="brand">PERFORMANCE LAB<small>Calf Rehab Coach <span class="tag proto">prototype</span></small></div>
+  <button data-go="plan"><b>01</b>Today's plan</button>
+  <button data-go="checkin"><b>02</b>Check-in</button>
+  <button data-go="gate"><b>03</b>Gate review</button>
+  <button data-go="progress"><b>04</b>Progress</button>
+  <button data-go="intake"><b>05</b>Safety intake</button>
+  <button data-go="escalate" class="esc"><b>06</b>Red flags</button>
+  <div class="navfoot">PHASE 3/5 &middot; DAY 34<br><span style="color:#6c7785">typical range, not a promise</span></div>
+</nav>
+
+<main>
+<div id="gbanner"></div>
+
+<!-- PLAN -->
+<section class="screen" id="s-plan">
+  <h1>TODAY'S PLAN <span class="tag proto">prototype</span></h1>
+  <p class="sub">One session, five exercises. Dosing is a draft, awaiting physio review. Pain rule: stay at or below 2/10 during activity; if it rises, stop, log it, and ask your clinician.</p>
+  <div class="card" id="planbody"></div>
+  <div class="grid g2">
+    <div class="card"><h2>Session log</h2><div id="sesslog" class="dim">No sets logged yet.</div>
+      <div style="margin-top:10px" class="chips"><button class="b" id="sameSess">Same as last session</button><button class="b" id="clearSess">Clear</button></div></div>
+    <div class="card"><h2>Evidence key</h2>
+      <p><span class="tag ev">Calf-specific</span> studied in calf injuries.</p>
+      <p><span class="tag ev">Extrapolated</span> from hamstring or tendon research.</p>
+      <p><span class="tag ev">General</span> general rehab practice.</p>
+      <p class="dim" style="margin:0">Confidence in all three is limited. This is coaching, not diagnosis.</p></div>
+  </div>
+</section>
+
+<!-- CHECKIN -->
+<section class="screen" id="s-checkin">
+  <h1>DAILY CHECK-IN <span class="tag proto">prototype</span></h1>
+  <p class="sub">Talk or tap. Under 20 seconds. Say it in your own words and the fields fill themselves.</p>
+  <div class="card" id="missed"><span class="dim">No entry for yesterday. That's fine. Log whenever suits; nothing to catch up on.</span></div>
+  <div class="grid g32">
+    <div>
+      <div class="card">
+        <h2>Utterance <span class="tag proto">faked parser</span></h2>
+        <div class="utt" id="utt">"felt tight after the walk, a bit sore this morning"</div>
+        <div class="chips" style="margin-top:10px">
+          <button class="b pri" id="parse">Parse into fields</button>
+          <button class="b" id="same">Same as yesterday</button>
+          <button class="b" id="flag">Something feels wrong</button>
+        </div>
+      </div>
+      <div class="card" id="ask" hidden>
+        <h2>Coach <span class="tag warn">1 question</span></h2>
+        <p style="margin:0 0 8px">Morning stiffness is a phase exit criterion and you gave no duration. How long did it last?</p>
+        <div class="chips" id="askchips"></div>
+      </div>
+      <div class="card">
+        <h2>Structured fields</h2>
+        <div id="fields"></div>
+        <div style="margin-top:12px"><button class="b pri" id="save">Save check-in</button> <span id="saved" class="dim"></span></div>
+      </div>
+    </div>
+    <div class="card"><h2>How the parse works</h2>
+      <p class="dim">Each field shows where its value came from:</p>
+      <p><span class="src x">from words</span> read from what you said.<br><span class="src c">carried over</span> copied from yesterday, unconfirmed. Tap to confirm or change.<br><span class="src">manual</span> set by you.</p>
+      <p class="dim">The coach asks only when a safety or progression field is missing, and only one question at a time. Here: stiffness duration. Pain scores were carried over and need your confirmation before saving.</p>
+      <p class="dim" style="margin:0">If any answer sounds like a red flag, the app stops and goes to the red-flag screen. It never reassures through one.</p></div>
+  </div>
+</section>
+
+<!-- GATE -->
+<section class="screen" id="s-gate">
+  <h1>GATE REVIEW AND FUNCTIONAL TESTS <span class="tag proto">prototype</span></h1>
+  <p class="sub">Phase 3 to Phase 4. Do the tests in order, rested, warmed up. Stop any test if pain rises above 2/10.</p>
+  <div class="grid g32">
+    <div>
+      <div class="card"><h2>Step 1 &middot; single-leg heel raise to failure</h2>
+        <div class="row"><div class="l">Left (injured)<small>reps to failure</small></div><div class="stp" data-k="L"></div></div>
+        <div class="row"><div class="l">Right<small>reps to failure</small></div><div class="stp" data-k="R"></div></div>
+        <div class="row"><div class="l">Limb symmetry<small>left / right</small></div><div class="big" id="symv"></div></div>
+        <div class="conf" id="symconf"></div></div>
+      <div class="card"><h2>Step 2 &middot; single hop and triple hop</h2>
+        <p class="dim" style="margin-top:0">Hop distances are optional context; the gate uses pain. Hopping is not yet tested.</p>
+        <div class="grid g2"><div>Single hop L / R<br><input type="text" class="num" id="h1" placeholder="cm / cm"></div><div>Triple hop L / R<br><input type="text" class="num" id="h3" placeholder="cm / cm"></div></div></div>
+      <div class="card"><h2>Step 3 &middot; pain check</h2>
+        <p class="dim" style="margin-top:0">Single-leg hop pain during and 24 h after.</p>
+        <div class="chips" id="hoppain"></div></div>
+    </div>
+    <div>
+      <div class="card" style="text-align:center"><h2>Gate readout</h2><div id="gring"></div>
+        <div id="verdict" style="margin-top:10px"></div></div>
+      <div class="card"><h2>Exit criteria, phase 3</h2><div id="gcrit"></div>
+        <p class="conf" style="margin-bottom:0">90% symmetry is a <b>working target, borrowed from hamstring evidence</b>. Not calf-validated.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<section class="screen" id="s-progress">
+  <h1>PROGRESS <span class="tag proto">prototype</span></h1>
+  <p class="sub">Trend data below is illustrative sample data except today's values. Short series mean wide uncertainty.</p>
+  <div class="card"><h2>Five-phase model <span class="tag nt">draft, awaiting physio review</span></h2><div id="phases"></div></div>
+  <div class="grid g2">
+    <div class="card"><h2>Limb symmetry over time</h2><div id="symchart"></div>
+      <div class="conf">Shaded band: rough uncertainty, +/-5 points from single tests (prototype estimate). Target line is a working target, borrowed from hamstring evidence.</div></div>
+    <div class="card"><h2>Strength: heel raises to failure</h2><div id="strchart"></div><div class="conf">Left (injured) vs right. Self-counted; confidence moderate.</div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h2>Pain during activity, 14 days</h2><div id="sp1"></div></div>
+    <div class="card"><h2>Morning stiffness (min), 14 days</h2><div id="sp2"></div></div>
+  </div>
+  <div class="card"><h2>Return-to-sport ladder</h2>
+    <p class="dim" style="margin-top:0">Each sport is cleared separately. Two high-demand contact sports are never cleared in the same week. Ladder opens at Phase 5 criteria.</p>
+    <div id="ladder"></div></div>
+</section>
+
+<!-- INTAKE -->
+<section class="screen" id="s-intake">
+  <h1>SAFETY INTAKE <span class="tag proto">prototype</span></h1>
+  <p class="sub">No plan is created until this is complete and clear. This checklist is not an assessment and does not diagnose.</p>
+  <div class="chips" style="margin-bottom:12px"><span class="dim mono">Load:</span>
+    <button class="b" data-pre="ok">Complete, no flags</button><button class="b" data-pre="inc">Incomplete</button><button class="b" data-pre="red">Red flag reported</button></div>
+  <div class="grid g32">
+    <form id="intakeForm" onsubmit="return false">
+      <fieldset><legend>1 &middot; Clinical assessment</legend>
+        <label class="o"><input type="radio" name="clin" value="y"> A clinician (GP, physio, sports doctor) has assessed this injury</label>
+        <label class="o"><input type="radio" name="clin" value="n"> No, not yet</label></fieldset>
+      <fieldset><legend>2 &middot; Mechanism and onset</legend>
+        <div class="grid g2"><div>How did it happen?<select name="mech"><option value="">Select</option><option>Sprint or push-off</option><option>Sudden change of direction</option><option>Gradual overload</option><option>Contact or impact</option><option>Not sure</option></select></div>
+        <div>Onset<select name="onset"><option value="">Select</option><option>Sudden, during activity</option><option>Sudden, after activity</option><option>Gradual over days</option></select></div></div></fieldset>
+      <fieldset><legend>3 &middot; Clot (DVT) risk factors</legend>
+        <label class="o"><input type="radio" name="dvt" value="n"> None of these apply</label>
+        <label class="o"><input type="radio" name="dvt" value="y"> One or more apply: recent surgery, long travel or immobilisation, previous clot, hormone therapy, pregnancy or postpartum, active cancer</label></fieldset>
+      <fieldset><legend>4 &middot; Achilles rupture signs</legend>
+        <label class="o"><input type="radio" name="ach" value="n"> None of these apply</label>
+        <label class="o"><input type="radio" name="ach" value="y"> One or more apply: a pop or snap, a gap or dent above the heel, cannot rise onto toes, sudden feeling of being kicked</label></fieldset>
+    </form>
+    <div><div class="card" id="intakeRes"></div></div>
+  </div>
+</section>
+
+<!-- ESCALATE -->
+<section class="screen" id="s-escalate">
+  <h1 style="color:#ff9a9b">RED-FLAG ESCALATION</h1>
+  <p class="sub">The plan has stopped. Nothing on this screen is a diagnosis, and nothing here is reassurance. <span class="tag proto">prototype: trigger buttons are for demonstration</span></p>
+  <div id="escbody"></div>
+</section>
+
+<footer>
+  <h2>What this direction is betting on</h2>
+  <ol><li>A high-adherence athlete is motivated by numbers and readiness, the way WHOOP, Oura or a training log users are.</li>
+  <li>Showing criteria met (2 of 4), trends and uncertainty beats encouragement, and makes HOLD feel like information, not failure.</li>
+  <li>Logging cost falls to chips, steppers and one-tap repeats, with chat reduced to a command line.</li></ol>
+</footer>
+</main>
+
+<aside>
+  <div><h2>Readiness gate</h2><div style="text-align:center" id="sring"></div>
+    <div class="conf" style="text-align:center">Phase 3 &middot; confidence: moderate</div></div>
+  <div>
+    <h2>Key metrics</h2>
+    <div class="row"><div class="l">Symmetry<small>target 90%, working target</small></div><div class="num" id="mSym"></div></div>
+    <div class="row"><div class="l">Pain, activity<small>conf: self-report</small></div><div class="num">2/10</div></div>
+    <div class="row"><div class="l">Pain, rest</div><div class="num">0/10</div></div>
+    <div class="row"><div class="l">AM stiffness<small>limit &lt;15 min</small></div><div class="num">10 min</div></div>
+    <div class="row"><div class="l">Day since injury<small>context only</small></div><div class="num">34</div></div>
+  </div>
+  <div style="margin-top:auto">
+    <h2>Command <span class="tag proto">no AI</span></h2>
+    <div class="cmd"><div class="log" id="clog"><div>type "help"</div></div>
+    <form id="cform"><span>&gt;</span><input id="cin" autocomplete="off" aria-label="Command" placeholder="go gate"></form></div>
+  </div>
+</aside>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const S={screen:'plan',L:18,R:21,hop:'untested',pain:2,rest:0,stiff:10,intakeOk:true,escalated:null,sets:{},
+ ci:{rest:{v:0,src:'c'},act:{v:2,src:'c'},sore:{v:null,src:''},walk:{v:null,src:''},stiff:{v:null,src:''}}};
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+/* ---------- criteria and ring ---------- */
+const sym=()=>S.R?S.L/S.R*100:0;
+function crit(){return[
+ {n:'Pain during activity <=2/10',st:S.pain<=2?'met':'no',v:S.pain+'/10',c:'self-report'},
+ {n:'Morning stiffness <15 min',st:S.stiff<15?'met':'no',v:S.stiff+' min',c:'self-report'},
+ {n:'Heel-raise symmetry >=90%',st:sym()>=90?'met':'no',v:Math.round(sym())+'%',c:'1 test, +/-5 pts'},
+ {n:'Single-leg hop pain-free',st:S.hop==='free'?'met':S.hop==='pain'?'no':'nt',v:S.hop==='free'?'pain-free':S.hop==='pain'?'pain':'not yet tested',c:S.hop==='untested'?'no data':'1 test'}];}
+function ring(size){const c=crit(),n=c.filter(x=>x.st==='met').length,R=54,C=2*Math.PI*R,seg=C/4;
+ let a='';c.forEach((x,i)=>{const col=x.st==='met'?'var(--ok)':x.st==='no'?'var(--warn)':'#3a424d';
+  a+=`<circle cx="70" cy="70" r="${R}" fill="none" stroke="${col}" stroke-width="12" stroke-dasharray="${seg-6} ${C}" transform="rotate(${i*90-90+3} 70 70)" ${x.st==='nt'?'opacity=".7"':''}/>`});
+ return`<svg width="${size}" height="${size}" viewBox="0 0 140 140" role="img" aria-label="${n} of 4 criteria met">${a}<text x="70" y="76" text-anchor="middle" font-size="32" font-weight="700" fill="#d9dfe7">${n}/4</text><text x="70" y="94" text-anchor="middle" font-size="9" fill="#8793a2">CRITERIA MET</text></svg>`}
+const tagFor=s=>s==='met'?'<span class="tag ok">met</span>':s==='no'?'<span class="tag no">not met</span>':'<span class="tag nt">not yet tested</span>';
+function critList(){return crit().map(x=>`<div class="row"><div class="l">${x.n}<small>confidence: ${x.c}</small></div><div class="num">${x.v}</div>${tagFor(x.st)}</div>`).join('')}
+
+/* ---------- nav ---------- */
+function go(k){S.screen=k;$$('.screen').forEach(e=>e.hidden=e.id!=='s-'+k);$$('nav button[data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===k));
+ ({plan:rPlan,checkin:rCheck,gate:rGate,progress:rProg,intake:rIntake,escalate:rEsc})[k]();banner();rSide();window.scrollTo(0,0)}
+$$('nav button[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+function banner(){const g=$('#gbanner');
+ if(S.escalated&&S.screen!=='escalate')g.innerHTML=`<div class="banner stop">PLAN STOPPED. ${esc(S.escalated.tier)} escalation recorded at ${esc(S.escalated.t)}. Follow the instructions on the red-flag screen. <button class="b" onclick="go('escalate')">Open</button></div>`;
+ else if(!S.intakeOk&&['plan','gate','checkin'].includes(S.screen))g.innerHTML=`<div class="banner">Plan locked: safety intake is incomplete or has a flag. <button class="b" onclick="go('intake')">Open intake</button></div>`;
+ else g.innerHTML=''}
+const locked=()=>S.escalated||!S.intakeOk;
+function rSide(){$('#sring').innerHTML=ring(150);$('#mSym').innerHTML=Math.round(sym())+'%';}
+
+/* ---------- plan ---------- */
+const EX=[
+ {n:'Seated heel raises',d:'Knee bent 90 degrees, slow up and down',s:3,r:'15',ev:'Calf-specific',f:0},
+ {n:'Standing heel raises, both legs',d:'Controlled, two seconds up, two down',s:3,r:'12',ev:'Calf-specific',f:0},
+ {n:'Isometric calf holds',d:'Hold at top of raise, injured side, 30 s',s:4,r:'30 s',ev:'Extrapolated (from hamstring/tendon research)',f:1},
+ {n:'Eccentric lowers',d:'Up on two legs, lower on injured leg over 3 s',s:3,r:'8',ev:'Extrapolated (from hamstring/tendon research)',f:1},
+ {n:'Single-leg balance',d:'Eyes open, near a wall, 30 s each side',s:3,r:'30 s',ev:'General',f:0}];
+function rPlan(){
+ if(locked()){$('#planbody').innerHTML='<p><b>Session unavailable.</b> '+(S.escalated?'The plan is stopped following a red-flag escalation.':'Safety intake must be complete and clear first.')+'</p>';$('#sesslog').textContent='Locked.';return}
+ $('#planbody').innerHTML=EX.map((e,i)=>`<div class="row"><div class="num dim" style="width:20px">${i+1}</div><div class="l"><b>${e.n}</b> <span class="tag ev">${e.ev}</span>${e.f?' <span class="tag no">No female-specific research found</span>':''}<small>${e.d} &middot; ${e.s} x ${e.r}</small></div>
+  <div class="chips">${Array.from({length:e.s},(_,k)=>`<button class="chip ${(S.sets[i]||0)>k?'on':''}" data-ex="${i}" data-k="${k+1}" aria-label="set ${k+1}">${k+1}</button>`).join('')}</div></div>`).join('');
+ $$('[data-ex]').forEach(b=>b.onclick=()=>{const i=b.dataset.ex,k=+b.dataset.k;S.sets[i]=(S.sets[i]||0)===k?k-1:k;rPlan()});
+ const t=Object.values(S.sets).reduce((a,b)=>a+b,0);$('#sesslog').innerHTML=t?`<span class="num">${t}</span> sets logged. Log pain after the session in check-in.`:'No sets logged yet.'}
+$('#sameSess').onclick=()=>{if(locked())return;EX.forEach((e,i)=>S.sets[i]=e.s);rPlan()};$('#clearSess').onclick=()=>{S.sets={};rPlan()};
+
+/* ---------- check-in ---------- */
+const WALK=['Normal','Slight limp','Clear limp'],SORE=['None','Mild','Moderate','Marked'];
+function stepper(k,min,max,unit){const f=S.ci[k];return`<div class="stp"><button data-d="-1" data-k="${k}">-</button><output>${f.v===null?'--':f.v}${unit||''}</output><button data-d="1" data-k="${k}">+</button></div>`}
+function rCheck(){
+ const f=S.ci,lbl={rest:'Pain at rest 0-10',act:'Pain during activity 0-10',sore:'Next-day soreness',walk:'Walking quality',stiff:'Morning stiffness'};
+ const srcT=k=>f[k].src==='x'?'<span class="src x">from words</span>':f[k].src==='c'?'<span class="src c">carried over</span>':f[k].src==='m'?'<span class="src">manual</span>':'<span class="src c">missing</span>';
+ let h='';
+ h+=`<div class="field"><div>${lbl.rest}</div>${stepper('rest')}${srcT('rest')}</div>`;
+ h+=`<div class="field"><div>${lbl.act}</div>${stepper('act')}${srcT('act')}</div>`;
+ h+=`<div class="field"><div>${lbl.sore}</div><div class="chips">${SORE.map((s,i)=>`<button class="chip ${f.sore.v===i?'on':''}" data-c="sore" data-v="${i}">${s}</button>`).join('')}</div>${srcT('sore')}</div>`;
+ h+=`<div class="field"><div>${lbl.walk}</div><div class="chips">${WALK.map((s,i)=>`<button class="chip ${f.walk.v===i?'on':''}" data-c="walk" data-v="${i}">${s}</button>`).join('')}</div>${srcT('walk')}</div>`;
+ h+=`<div class="field"><div>${lbl.stiff}</div><div class="chips">${[0,5,10,15,30].map(m=>`<button class="chip ${f.stiff.v===m?'on':''}" data-c="stiff" data-v="${m}">${m===30?'30+':m} min</button>`).join('')}</div>${srcT('stiff')}</div>`;
+ $('#fields').innerHTML=h;
+ $$('#fields [data-d]').forEach(b=>b.onclick=()=>{const x=f[b.dataset.k];x.v=Math.max(0,Math.min(10,(x.v||0)+ +b.dataset.d));x.src='m';rCheck()});
+ $$('#fields [data-c]').forEach(b=>b.onclick=()=>{f[b.dataset.c]={v:+b.dataset.v,src:'m'};if(b.dataset.c==='stiff')$('#ask').hidden=true;rCheck()});
+}
+$('#parse').onclick=()=>{const f=S.ci;f.sore={v:1,src:'x'};f.walk={v:1,src:'x'};f.stiff={v:null,src:''};
+ $('#utt').innerHTML='"felt <mark>tight</mark> after the <mark>walk</mark>, a bit <mark>sore</mark> this <mark>morning</mark>"';
+ rCheck();$('#ask').hidden=false;
+ $('#askchips').innerHTML=['<5 min','5-10 min','10-15 min','15+ min'].map((t,i)=>`<button class="chip" data-m="${[3,8,12,20][i]}">${t}</button>`).join('');
+ $$('#askchips [data-m]').forEach(b=>b.onclick=()=>{f.stiff={v:+b.dataset.m,src:'m'};$('#ask').hidden=true;rCheck()})};
+$('#same').onclick=()=>{const f=S.ci;f.rest={v:0,src:'m'};f.act={v:2,src:'m'};f.sore={v:1,src:'m'};f.walk={v:0,src:'m'};f.stiff={v:10,src:'m'};$('#ask').hidden=true;rCheck()};
+$('#flag').onclick=()=>go('escalate');
+$('#save').onclick=()=>{const f=S.ci,miss=Object.keys(f).filter(k=>f[k].v===null||f[k].src==='c');
+ $('#saved').textContent=miss.length?'Not saved: confirm or fill '+miss.join(', ')+'.':'Saved (sample, not stored).'};
+
+/* ---------- gate ---------- */
+function rGate(){
+ $$('.stp[data-k]').forEach(el=>{const k=el.dataset.k;el.innerHTML=`<button data-k="${k}" data-d="-1">-</button><output>${S[k]}</output><button data-k="${k}" data-d="1">+</button>`;
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{S[k]=Math.max(1,S[k]+ +b.dataset.d);rGate();rSide()})});
+ $('#hoppain').innerHTML=[['untested','Not tested yet'],['free','Pain-free'],['pain','Pain during or after']].map(([v,t])=>`<button class="chip ${S.hop===v?'on':''}" data-h="${v}">${t}</button>`).join('');
+ $$('[data-h]').forEach(b=>b.onclick=()=>{S.hop=b.dataset.h;rGate();rSide()});
+ const s=sym();$('#symv').innerHTML=`<span class="${s>=90?'ok':'warn'}">${Math.round(s)}%</span> <span class="conf">${S.L}/${S.R} &middot; target 90%</span>`;
+ $('#symconf').textContent='Confidence: low to moderate. One session, self-counted, normal day-to-day variation of a rep or two.';
+ $('#gring').innerHTML=ring(170);$('#gcrit').innerHTML=critList();
+ const c=crit(),all=c.every(x=>x.st==='met'),why=c.filter(x=>x.st!=='met').map(x=>x.n+' ('+x.v+')');
+ $('#verdict').innerHTML=locked()?'<span class="tag no">Unavailable while plan is locked</span>':all?`<div class="big ok">ADVANCE</div><div class="dim">All four criteria met. Move to Phase 4 plyometric, pending your clinician if you have one.</div>`
+  :`<div class="big warn">HOLD</div><div>Stay in Phase 3. Outstanding: ${esc(why.join('; '))}.</div><div class="dim" style="margin-top:6px">Retest in 5-7 days. Day count is context only.</div>`}
+
+/* ---------- progress ---------- */
+function line(pts,o){const W=o.w||520,H=o.h||200,p=30,x=v=>p+(v-o.x0)/(o.x1-o.x0)*(W-p-10),y=v=>H-22-(v-o.y0)/(o.y1-o.y0)*(H-40);
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${o.a}">`;
+ (o.grid||[]).forEach(g=>s+=`<line x1="${p}" x2="${W-10}" y1="${y(g)}" y2="${y(g)}" stroke="#222931"/><text x="4" y="${y(g)+3}" font-size="9" fill="#8793a2">${g}</text>`);
+ (o.xt||[]).forEach(t=>s+=`<text x="${x(t)}" y="${H-6}" font-size="9" fill="#8793a2" text-anchor="middle">d${t}</text>`);
+ if(o.band)s+=`<polygon points="${pts.map(q=>x(q[0])+','+y(q[1]+o.band)).join(' ')+' '+[...pts].reverse().map(q=>x(q[0])+','+y(q[1]-o.band)).join(' ')}" fill="${o.col}" opacity=".15"/>`;
+ if(o.target)s+=`<line x1="${p}" x2="${W-10}" y1="${y(o.target)}" y2="${y(o.target)}" stroke="var(--ok)" stroke-dasharray="5 4"/><text x="${W-12}" y="${y(o.target)-4}" font-size="9" fill="#5bd68a" text-anchor="end">90% working target</text>`;
+ s+=`<polyline points="${pts.map(q=>x(q[0])+','+y(q[1])).join(' ')}" fill="none" stroke="${o.col}" stroke-width="2"/>`;
+ pts.forEach(q=>s+=`<circle cx="${x(q[0])}" cy="${y(q[1])}" r="3" fill="${o.col}"/>`);
+ const l=pts[pts.length-1];s+=`<text x="${x(l[0])-6}" y="${y(l[1])-8}" font-size="11" font-weight="700" fill="#d9dfe7" text-anchor="end">${l[1]}${o.unit||''}</text>`;
+ return s+'</svg>'}
+function rProg(){
+ const ph=['Protect','Early loading','Progressive strengthening','Plyometric','Sport-specific and contact'];
+ $('#phases').innerHTML=`<div class="stack" style="margin-bottom:6px">${ph.map((_,i)=>`<i style="${i<2?'background:#2a6f4c':i===2?'background:var(--acc)':''}"></i>`).join('')}</div>
+ <div class="grid" style="grid-template-columns:repeat(5,1fr);font-size:12px">${ph.map((p,i)=>`<div class="${i===2?'':'dim'}"><span class="num">${i+1}</span> ${p}${i===2?' <span class="tag ev">current</span>':''}</div>`).join('')}</div>
+ <div style="margin-top:12px"><h2>Phase 3 exit criteria</h2>${critList()}</div>`;
+ const sp=[[20,58],[24,66],[28,74],[31,80],[34,86]];
+ $('#symchart').innerHTML=line(sp,{x0:18,x1:36,y0:50,y1:100,grid:[60,80,100],xt:[20,24,28,31,34],col:'#4cc9f0',band:5,target:90,unit:'%',a:'Symmetry over time rising to 86%'});
+ $('#strchart').innerHTML=line([[20,9],[24,12],[28,15],[34,18]],{x0:18,x1:36,y0:0,y1:25,grid:[0,10,20],xt:[20,24,28,34],col:'#f2b84b',a:'Left heel raises'}).replace('</svg>','')+
+  `<polyline points="${[[20,20],[24,21],[28,21],[34,21]].map(q=>(30+(q[0]-18)/18*480)+','+(178-q[1]/25*160)).join(' ')}" fill="none" stroke="#8793a2" stroke-width="2" stroke-dasharray="3 3"/><text x="500" y="${178-21/25*160-6}" font-size="10" fill="#8793a2" text-anchor="end">R 21</text></svg>`;
+ const sk=(a,o)=>line(a.map((v,i)=>[i,v]),Object.assign({x0:0,x1:13,h:110,col:'#4cc9f0',xt:[0,13]},o));
+ $('#sp1').innerHTML=sk([4,4,3,3,3,3,2,3,2,2,2,2,2,2],{y0:0,y1:10,grid:[0,5,10],a:'Pain sparkline'})+'<div class="conf">Now 2/10. Confidence: self-report, noisy day to day.</div>';
+ $('#sp2').innerHTML=sk([30,25,25,20,20,18,15,15,12,12,10,10,10,10],{y0:0,y1:40,grid:[0,15,30],col:'#5bd68a',unit:'',a:'Stiffness sparkline'})+'<div class="conf">Now 10 min, below the 15 min limit. Confidence: self-estimated.</div>';
+ const rung=['Walk-jog','Straight running','Change of direction','Non-contact drills','Full training/match'];
+ $('#ladder').innerHTML=['Basketball','Tag rugby'].map((n,i)=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between"><b>${n}</b><span class="num dim">0 of 5 stages cleared</span></div>
+  <div class="stack">${rung.map(()=>'<i></i>').join('')}</div><div class="conf">${rung.join(' > ')}. Not open yet; needs Phase 5. ${i?'Clear no sooner than one week after basketball.':'Cleared first, separately.'} Confidence: n/a, no data.</div></div>`).join('')}
+
+/* ---------- intake ---------- */
+const F=()=>$('#intakeForm');
+function rIntake(){
+ const d=new FormData(F()),g=k=>d.get(k)||'';
+ const miss=[];if(!g('clin'))miss.push('clinical assessment');if(!g('mech'))miss.push('mechanism');if(!g('onset'))miss.push('onset');if(!g('dvt'))miss.push('clot risk factors');if(!g('ach'))miss.push('Achilles signs');
+ const flags=[];if(g('clin')==='n')flags.push('No clinician assessment yet');if(g('dvt')==='y')flags.push('Clot risk factor reported');if(g('ach')==='y')flags.push('Possible Achilles rupture sign reported');
+ S.intakeOk=!miss.length&&!flags.length;
+ let h;
+ if(flags.length)h=`<div class="tier" style="margin:0"><h3>PLAN BLOCKED. SEE A CLINICIAN</h3><p style="margin:0 0 6px">${flags.map(esc).join('. ')}.</p>
+  <ul><li>Book an assessment with a GP, physio or sports doctor before starting any plan.</li><li>Take this record with you.</li><li>If the leg is swollen, hot, red, pale or tingling, or you cannot put weight on it, get urgent help now (NHS 111, or 999 if severe).</li></ul><p style="margin:0" class="dim">This app cannot say what is wrong. Only a clinician can.</p></div>`;
+ else if(miss.length)h=`<div class="banner"><b>Incomplete. Plan creation blocked.</b><br>Still needed: ${miss.join(', ')}.<br><span class="dim">Path: complete every question, or see a clinician if unsure.</span></div>`;
+ else h=`<div class="card" style="border-color:var(--ok);margin:0"><b class="ok">Intake complete, no flags reported.</b><p>Plan creation permitted. This reflects your answers only and is not an assessment. If anything changes, redo this and see a clinician.</p><button class="b pri" onclick="go('plan')">Open today's plan</button></div>`;
+ $('#intakeRes').innerHTML='<h2>Gate status</h2>'+h;banner();
+}
+F().addEventListener('change',rIntake);
+function pre(k){const f=F(),set=(n,v)=>{f.elements[n].value=v};
+ const P={ok:['y','Sprint or push-off','Sudden, during activity','n','n'],inc:['y','','','',''],red:['y','Sprint or push-off','Sudden, during activity','n','y']}[k];
+ ['clin','mech','onset','dvt','ach'].forEach((n,i)=>{const e=f.elements[n];if(e.type==='select-one'||!e.length)e.value=P[i];else{[...e].forEach(r=>r.checked=r.value===P[i])}});rIntake()}
+$$('[data-pre]').forEach(b=>b.onclick=()=>pre(b.dataset.pre));
+
+/* ---------- escalation ---------- */
+const stamp=()=>new Date().toLocaleString('en-GB',{dateStyle:'short',timeStyle:'short'});
+function rEsc(){
+ const rec=S.escalated?`<div class="banner stop">Escalation recorded: ${esc(S.escalated.tier)} at ${esc(S.escalated.t)}. The plan is stopped. The app will not restart it until a clinician has reviewed this.</div>`:'<p class="dim">No escalation recorded.</p>';
+ $('#escbody').innerHTML=rec+`
+ <div class="tier em"><h3>EMERGENCY. CALL 999 NOW</h3>
+  <ul><li>Whole leg swollen, with warmth or redness</li><li>Leg tight, pale, cold or tingling</li><li>Chest pain or breathlessness</li></ul>
+  <p style="margin:0 0 10px"><b>Do not wait. Do not exercise. Do not use this app until you have been seen.</b></p>
+  <button class="b" data-t="EMERGENCY">Record: emergency symptoms present</button></div>
+ <div class="tier"><h3>URGENT REVIEW. CONTACT A CLINICIAN TODAY</h3>
+  <ul><li>Pain worse 48 to 72 hours after the injury or after a session</li><li>New sharp pain</li><li>A visible dent, gap or defect in the calf or above the heel</li></ul>
+  <p style="margin:0 0 10px"><b>Stop the plan.</b> Call your GP, physio or NHS 111 today. Ask them before taking any painkiller, including anti-inflammatories.</p>
+  <button class="b" data-t="URGENT REVIEW">Record: urgent review symptoms present</button></div>
+ <div class="card"><h2>Escalation record</h2><div class="mono">${S.escalated?esc(S.escalated.tier)+' | '+esc(S.escalated.t)+' | plan stopped':'empty'}</div>
+ <p class="conf" style="margin-bottom:0">Records that escalation occurred. No score, streak or reward is attached. <span class="tag proto">prototype</span> <button class="b" id="resetEsc" style="margin-left:8px">Prototype reset (a clinician would clear this)</button></p></div>`;
+ $$('#escbody [data-t]').forEach(b=>b.onclick=()=>{S.escalated={tier:b.dataset.t,t:stamp()};go('escalate')});
+ const r=$('#resetEsc');r.onclick=()=>{S.escalated=null;go('escalate')}}
+
+/* ---------- command line ---------- */
+$('#cform').onsubmit=e=>{e.preventDefault();const i=$('#cin'),v=i.value.trim().toLowerCase();i.value='';if(!v)return;
+ const L=$('#clog'),say=(t,u)=>{L.insertAdjacentHTML('beforeend',`<div class="${u?'u':''}">${u?'> ':''}${esc(t)}</div>`);L.scrollTop=1e9};say(v,1);
+ const map={plan:'plan',today:'plan',checkin:'checkin','check-in':'checkin',gate:'gate',tests:'gate',progress:'progress',intake:'intake',redflag:'escalate',escalate:'escalate'};
+ const w=v.replace(/^go\s+/,'');
+ if(v==='help')say('go plan | checkin | gate | progress | intake | redflag. "same" repeats yesterday. Prototype: no AI.');
+ else if(map[w]){say('opening '+map[w]);go(map[w])}
+ else if(v==='same'){go('checkin');$('#same').click();say('copied yesterday')}
+ else if(v.startsWith('log ')){go('checkin');$('#parse').click();say('parsed. one question pending.')}
+ else say('not understood. type "help".')};
+
+pre('ok');go('plan');
+</script>
+</body>
+</html>
