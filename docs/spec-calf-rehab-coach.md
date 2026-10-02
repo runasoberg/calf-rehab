@@ -4,7 +4,7 @@
 **Owner:** Runa
 **Source:** Notion, "Reverse engineer calf rehab programme" (Problem Definition, with User interviews, Injury definition & research, Competitive Landscape and Calf rehab project pages). The Solution, Execution, GTM and Post-launch sections of that page are empty, so this spec fills the Solution section.
 
-> **Evidence caveat.** Everything below rests on a single-user case (the owner's own Grade 2 medial gastrocnemius strain, Feb–Apr 2026) and desk research. There are no external users yet, and market size is unquantified. Items marked **[Assumption]** are my inferences, not findings. Items marked **[Decision needed]** are listed in Open Questions.
+> **Evidence caveat.** Everything below rests on a single-user case (the owner's own Grade 2 medial gastrocnemius strain, Feb–Apr 2026) and desk research. There are no external users yet, and market size is unquantified. Items marked **[Assumption]** are my inferences, not findings. Decisions are recorded in the Decision log (section 9).
 
 ## 1. Why now / problem
 
@@ -30,13 +30,13 @@ A person recovering from a calf strain cannot get continuous guidance adapted to
 - A multi-injury MSK platform.
 - Diagnosis or triage. Ruling out Achilles rupture and DVT stays with A&E, GP or physio. The product starts after that.
 - A substitute for a clinician.
-- **[Assumption]** Medical-device certification in v1. The competitive scan flags regulatory position as an undecided question (see Open Questions).
+- Medical-device certification. Decided: positioned as wellness (Decision log 4).
 
 ## 3. Users
 
 **Primary (v1):** the owner, a high-adherence, well-resourced recreational multi-sport athlete with a home gym, using the product for a new or repeat injury.
 
-**Secondary (pilot):** recreational athletes (basketball, tag rugby, running) with a clinician-confirmed calf strain who want self-serve guidance. **[Assumption]** The segment is broader than basketball, since basketball-specific incidence data is too thin to size.
+**Secondary (future, no pilot planned; Decision log 5):** recreational athletes (basketball, tag rugby, running) with a clinician-confirmed calf strain who want self-serve guidance. **[Assumption]** The segment is broader than basketball, since basketball-specific incidence data is too thin to size.
 
 ## 4. Scope
 
@@ -51,7 +51,7 @@ A person recovering from a calf strain cannot get continuous guidance adapted to
 |---|---|---|
 | R1 | **Safety intake.** Before any plan, confirm a clinician has assessed the injury. Capture mechanism, onset, DVT risk factors and Achilles-rupture signs. Block plan generation and show a "see a clinician" path if intake is incomplete or shows red flags. | P0 |
 | R2 | **Red-flag monitor.** Every check-in screens for the warning signs in the Injury definition page: worsening pain after 48–72 h, whole-leg swelling, warmth or redness, a new sharp pain, a visible defect, or tight, pale or tingling symptoms. Escalate by urgency tier (urgent review versus emergency). The product never reassures through a red flag. | P0 |
-| R3 | **Phase model with exit criteria.** Phases advance only when criteria are met. Time since injury is context, not a trigger. Suggested phases follow the literature: protect, early loading, progressive strengthening, plyometric, sport-specific and contact. **[Assumption]** The final phase names and criteria are drafted from the evidence pages and the owner's programme, then reviewed by a physio. | P0 |
+| R3 | **Phase model with exit criteria.** Phases advance only when criteria are met. Time since injury is context, not a trigger. Suggested phases follow the literature: protect, early loading, progressive strengthening, plyometric, sport-specific and contact. **[Assumption]** The final phase names and criteria are drafted from the evidence pages and the owner's programme, then reviewed by a physio (a friend who is also a basketball coach; Decision log 3). | P0 |
 | R4 | **Conversational check-in.** Free-text or voice update converted to structured fields (pain at rest, pain during activity, next-day soreness, walking quality, morning stiffness). Ask clarifying questions only when a field that gates safety or progression is missing. | P0 |
 | R5 | **Adaptive daily plan.** Generate the session from the current phase, last check-in and personal risk profile (age, prior strain, ankle instability or hypermobility, sport, equipment). | P0 |
 | R6 | **Functional test protocol.** Guide the user through heel-raise-to-failure, hop tests and the pain check. Compute symmetry and record the result against the phase gate. | P0 |
@@ -93,32 +93,46 @@ From the Problem Definition. **Targets are not yet set.**
 | Friction | Time from install to first clinician-confirmed intake | TBD |
 | Quality | Share of recommendations carrying an evidence label | 100% |
 
+**Future-user metric (Decision log 7):** recovery earlier than or on time with the clinical projection, given the plan adherence target is met, with no re-injury in the agreed window. The adherence target and window are still to be defined.
+
 **Counter-metric:** a premature phase advance, meaning an advance followed by a pain increase or a re-injury within 2 weeks.
 
 ## 8. Risks
 
-- **Medical and liability.** An AI coach near a clinical decision. Mitigate with clear non-diagnostic positioning, escalation tiers and physio review of phases and criteria. Regulatory status is not yet decided.
+- **Medical and liability.** An AI coach near a clinical decision. Mitigate with clear non-diagnostic positioning, escalation tiers and physio review of phases and criteria. Positioned as wellness (Decision log 4); keep claims and wording consistent with that.
 - **Weak evidence base.** Calf RTP criteria are low-certainty, so the gating logic is partly a judgement call and must be presented as one.
 - **n = 1.** Fast recovery (single-leg heel raise on day 6, ≥90% symmetry around week 6) may not generalise. The owner's profile (high adherence, same-week hospital care, unlimited time) is atypical.
 - **Competitive response.** Exakt could add calf depth. Sword or Hinge could unbundle a consumer product. Both are flagged as threats in the landscape scan.
 - **Unsized market.** Do not build the pitch on a TAM figure. None can be supported yet.
 
-## 9. Open questions
+## 9. Decision log
 
-1. **[Decision needed]** Is v1 a personal tool plus portfolio case study, or a pilot with outside users? The answer changes R1, R12 and the regulatory stance.
-2. **[Decision needed]** Which interface: the existing Claude project and Notion, or a new app? Lovable is connected in this environment, but nothing says that is the intended route.
-3. Which physio will review the phase definitions and exit criteria?
-4. What regulatory position do we take (wellness coaching versus a medical-device claim)? Get a proper regulatory opinion before any external launch.
-5. How many pilot users, and what recruitment route? Calf-strain incidence in the target group is not sized.
+1. **[Decision made]** Is v1 a personal tool plus portfolio case study, or a pilot with outside users? This changes R1, R12 and the regulatory stance.
+   1. **Personal v1 tool.**
+2. **[Decision made]** Which interface: the existing Claude project and Notion, or a new app?
+   1. Depends on solution discovery. Prototype via Lovable, Claude and Figma Make.
+   2. Infrastructure needs are a source of truth for data (currently Notion), an input GUI (currently Claude), chat (Claude) and a plan overview (Notion). The direction is for all user interfaces to sit in one place (a web app, e.g. built in Lovable). Data pipes and agent structure are to be confirmed, which needs a technical infrastructure spike (added to the milestones).
+3. Which physio reviews the phase definitions and exit criteria?
+   1. A friend who is a physio and a basketball coach, so has specific knowledge of this use case. He will review.
+4. What regulatory position (wellness coaching versus medical-device claim)?
+   1. **Wellness.**
+5. How many pilot users, and what recruitment route?
+   1. No pilot is planned currently.
+   2. **Still open:** whether a future pilot stays calf-only or lets people choose from a few common sports injuries.
 6. Data handling: where health data lives, retention, and GDPR basis if any external user is added.
-7. Success-metric targets (adherence, time-to-first-intake) need a baseline from the pilot.
+   1. Lives in Notion for now. A future version depends on the technical infrastructure spike.
+7. Success-metric targets (adherence, time to first intake).
+   1. For any future injury and any future user: recovery earlier than or on time with the clinical projection, if the user has met the plan adherence target, with no re-injury within a set period.
+   2. **Still open:** the adherence target and the re-injury window (x) are not yet defined.
 
 ## 10. Rough milestones
 
 No dates have been given, so none are asserted.
 
-1. Physio review of the phase model and criteria.
-2. Prototype of R1–R6 on the current Claude and Notion stack.
-3. Dogfood on a new injury or the owner's maintenance phase.
-4. Decide on a pilot (Open Question 1), then scope R8–R12.
-5. Post-launch review (feeds the empty Post-launch section on Notion).
+1. Technical infrastructure spike: single-place UI, source of truth for data, data pipes and agent structure, with prototypes in Lovable, Claude and Figma Make (Decision log 2 and 6).
+2. Physio review of the phase model and criteria (Decision log 3).
+3. Prototype R1-R6 on the stack chosen after the spike.
+4. Dogfood on a new injury or the maintenance phase.
+5. Define the adherence target and re-injury window (Decision log 7).
+6. If a pilot is ever planned, decide calf-only versus a few common injuries (Decision log 5), then scope R8-R12.
+7. Post-launch review (feeds the empty Post-launch section on Notion).
