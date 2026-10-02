@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calf Rehab Coach - Recovery Quest (prototype)</title>
+<style>
+:root{--ink:#2b2350;--bg:#fff4d6;--card:#fff;--pink:#ff6fa5;--blue:#3aa0ff;--green:#2fcf7f;--yellow:#ffc933;--purple:#8a5cf6;--orange:#ff8a3d;--line:#2b2350;--r:22px}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Trebuchet MS","Nunito","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.45;
+background-image:radial-gradient(#ffe8a3 2px,transparent 2px);background-size:28px 28px}
+h1,h2,h3{margin:0 0 .4em;line-height:1.15}
+h1{font-size:34px}h2{font-size:26px}h3{font-size:19px}
+button{font:inherit;color:inherit;cursor:pointer}
+.proto{display:inline-block;font-size:11px;font-weight:700;background:#fff;border:2px dashed var(--ink);border-radius:99px;padding:1px 8px;margin-left:6px;vertical-align:middle;opacity:.8}
+header.top{display:flex;align-items:center;gap:20px;padding:12px 28px;background:var(--purple);color:#fff;border-bottom:5px solid var(--line);position:sticky;top:0;z-index:5}
+.brand{font-size:22px;font-weight:900;display:flex;align-items:center;gap:8px;white-space:nowrap}
+nav{display:flex;gap:8px;flex:1;flex-wrap:wrap}
+nav button{background:#fff;color:var(--ink);border:3px solid var(--line);border-radius:99px;padding:6px 14px;font-weight:800;box-shadow:0 4px 0 var(--line);transition:transform .15s}
+nav button:hover{transform:translateY(-3px) rotate(-1deg)}
+nav button.on{background:var(--yellow)}
+nav button.rf{background:#fff;border-radius:6px;box-shadow:none;margin-left:auto}
+.xp{display:flex;align-items:center;gap:10px;min-width:260px}
+.xpbar{flex:1;height:16px;border:3px solid var(--line);border-radius:99px;background:#fff;overflow:hidden}
+.xpbar i{display:block;height:100%;width:62%;background:var(--green);transition:width .5s cubic-bezier(.3,1.6,.5,1)}
+main{max-width:1440px;margin:0 auto;padding:28px}
+.screen{display:none}.screen.on{display:block;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
+.card{background:var(--card);border:4px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:0 6px 0 var(--line)}
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.stack>*+*{margin-top:20px}
+.sticker{display:inline-block;border:3px solid var(--line);border-radius:12px;padding:2px 10px;font-weight:800;font-size:13px;background:var(--yellow);transform:rotate(-2deg)}
+.sticker.g{background:var(--green)}.sticker.b{background:#bfe0ff}.sticker.p{background:#ffc5dc}.sticker.o{background:#ffd7b8}.sticker.w{background:#fff;transform:none}
+.btn{background:var(--pink);color:#fff;border:4px solid var(--line);border-radius:16px;padding:10px 20px;font-weight:900;box-shadow:0 5px 0 var(--line);transition:transform .12s}
+.btn:hover{transform:translateY(-3px)}.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.btn.g{background:var(--green)}.btn.b{background:var(--blue)}.btn.w{background:#fff;color:var(--ink)}
+.muted{opacity:.75;font-size:14px}
+.note{background:#e9f4ff;border:3px dashed var(--blue);border-radius:14px;padding:10px 14px;font-size:14px}
+/* tiles */
+.tiles{display:flex;gap:10px;flex-wrap:wrap}
+.tile{width:84px;padding:8px 4px;background:#fff;border:4px solid var(--line);border-radius:18px;text-align:center;font-weight:800;box-shadow:0 4px 0 var(--line);transition:transform .15s}
+.tile b{display:block;font-size:30px;line-height:1.1}
+.tile span{font-size:12px}
+.tile:hover{transform:translateY(-4px) rotate(2deg)}
+.tile.sel{background:var(--yellow);transform:translateY(-4px) scale(1.06)}
+.field-row{display:grid;grid-template-columns:200px 1fr;gap:12px;align-items:center;margin:14px 0}
+.field-row label{font-weight:800}
+/* map */
+.mapwrap{overflow-x:auto;border:4px solid var(--line);border-radius:var(--r);background:linear-gradient(#bfe6ff 0 55%,#8fe3a6 55% 100%);box-shadow:0 6px 0 var(--line);padding:0}
+.map{position:relative;width:1900px;height:340px}
+.map svg{position:absolute;inset:0}
+.lvl{position:absolute;width:190px;text-align:center;transform:translateX(-50%)}
+.lvl .badge{width:78px;height:78px;border-radius:50%;border:4px solid var(--line);margin:0 auto 6px;display:grid;place-items:center;font-size:32px;font-weight:900;background:#fff;box-shadow:0 5px 0 var(--line)}
+.lvl.done .badge{background:var(--green)}.lvl.now .badge{background:var(--yellow);animation:bob 1.6s ease-in-out infinite}.lvl.next .badge{background:#ddd;filter:grayscale(.6)}
+.lvl small{display:block;font-weight:700;font-size:12px}
+.lvl .nm{font-weight:900;background:#fff;border:3px solid var(--line);border-radius:10px;padding:1px 6px;display:inline-block}
+.gate{position:absolute;transform:translateX(-50%);font-size:12px;font-weight:800;text-align:center;width:120px}
+.gate .bar{width:14px;height:70px;margin:0 auto 2px;border:3px solid var(--line);border-radius:6px;background:repeating-linear-gradient(45deg,var(--orange) 0 8px,#fff 8px 16px)}
+.avatar{position:absolute;font-size:46px;transform:translateX(-50%);animation:bob 1.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translate(-50%,-8px)}}
+.lvl.now{animation:none}.lvl.now .badge{animation:bobb 1.6s ease-in-out infinite}
+@keyframes bobb{50%{transform:translateY(-6px)}}
+/* criteria */
+.crit{display:flex;gap:12px;align-items:center;padding:10px 12px;border:3px solid var(--line);border-radius:14px;margin-bottom:10px;background:#fff}
+.crit .ic{font-size:24px}
+.crit.met{background:#d6f8e5}.crit.out{background:#fff0d6}.crit.unt{background:#eef}
+.legbar{height:18px;border:3px solid var(--line);border-radius:99px;background:#fff;overflow:hidden}
+.legbar i{display:block;height:100%;background:var(--blue)}
+.ladder .step{display:flex;align-items:center;gap:10px;padding:8px 12px;border:3px solid var(--line);border-radius:12px;margin:6px 0;background:#fff;font-weight:700}
+.ladder .step.locked{opacity:.55;background:#eee}
+/* exercises */
+.ex{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;padding:14px;border:4px solid var(--line);border-radius:18px;margin-bottom:14px;background:#fff}
+.ex .em{font-size:34px;background:var(--yellow);border:3px solid var(--line);border-radius:14px;width:56px;height:56px;display:grid;place-items:center}
+.ex.done{background:#d6f8e5}
+.ev{display:inline-block;font-size:12px;font-weight:800;padding:1px 8px;border-radius:8px;border:2px solid var(--line);margin-right:4px}
+.ev.cs{background:#bff0d3}.ev.ex2{background:#ffe3a8}.ev.ge{background:#e3e3e3}.ev.nf{background:#ffd0e0}
+.boss{background:linear-gradient(135deg,#ffd7e8,#ffe9a8)}
+.step-nav{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.step-nav span{border:3px solid var(--line);border-radius:99px;padding:3px 12px;font-weight:800;background:#fff}
+.step-nav span.on{background:var(--yellow)}
+input[type=number]{font:inherit;font-weight:800;width:90px;padding:6px;border:3px solid var(--line);border-radius:12px}
+input[type=checkbox],input[type=radio]{width:20px;height:20px;accent-color:var(--purple)}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:8px 0}
+.chk.yes{display:flex}
+.verdict{border:5px solid var(--line);border-radius:22px;padding:18px;background:#fff7d6}
+.chat{background:#f3ecff;border:3px solid var(--line);border-radius:18px;padding:10px 14px;margin:8px 0;max-width:90%}
+.chat.me{background:#d9f0ff;margin-left:auto}
+.field{display:inline-flex;gap:6px;background:#fff;border:3px solid var(--line);border-radius:12px;padding:3px 10px;margin:3px;font-weight:700;animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+.pop{position:fixed;right:30px;bottom:30px;background:var(--green);border:4px solid var(--line);border-radius:18px;padding:12px 18px;font-weight:900;box-shadow:0 5px 0 var(--line);display:none;z-index:20;animation:pop .35s}
+footer.about{max-width:1440px;margin:0 auto;padding:10px 28px 40px}
+/* ===== SERIOUS MODE (red flag) : playfulness off ===== */
+body.serious{background:#fff;background-image:none;color:#000;font-family:Arial,Helvetica,sans-serif}
+body.serious *{animation:none!important;transition:none!important;transform:none!important;box-shadow:none!important}
+body.serious header.top{background:#222;border-bottom:3px solid #000}
+body.serious .xp,body.serious .brand .em{display:none}
+body.serious nav button{border-radius:4px;border:2px solid #000;font-weight:700;background:#fff}
+body.serious nav button.on{background:#ddd}
+body.serious .card,body.serious .btn{border-radius:4px}
+.rf-box{border:6px solid #b00020;padding:24px;background:#fff;margin-bottom:20px}
+.rf-box.urgent{border-color:#c25b00}
+.rf-box h2{font-size:30px}
+.rf-box.em h2{color:#b00020}
+.rf-box ul{margin:8px 0 0;padding-left:22px}
+.rf-btn{display:inline-block;background:#000;color:#fff;border:0;padding:12px 20px;font-weight:700;border-radius:4px;font-size:17px}
+.rf-btn.red{background:#b00020}
+.stopbar{background:#000;color:#fff;padding:14px 20px;font-weight:700;font-size:20px;margin-bottom:20px}
+.blocked{border:6px solid #b00020;background:#fff;color:#000;padding:22px;border-radius:6px;font-family:Arial,Helvetica,sans-serif}
+.blocked h2{color:#b00020}
+@media (max-width:1100px){.grid2,.grid3{grid-template-columns:1fr}.xp{min-width:160px}header.top{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="em">🦵</span> Calf Quest <span class="proto">prototype</span></div>
+  <nav id="nav">
+    <button data-s="progress" class="on">🗺️ Quest map &amp; progress</button>
+    <button data-s="intake">📋 Safety intake</button>
+    <button data-s="checkin">💬 Daily check-in</button>
+    <button data-s="plan">🎒 Today's plan</button>
+    <button data-s="gate">👾 Gate review</button>
+    <button data-s="redflag" class="rf">Red-flag screen (demo)</button>
+  </nav>
+  <div class="xp" title="XP is earned for honest logging and finishing sessions, never for pushing through pain">
+    <b>Lv 7</b><div class="xpbar"><i id="xpfill"></i></div><b id="xpnum">310 XP</b>
+  </div>
+</header>
+
+<main>
+<!-- ============ 6 PROGRESS / MAP ============ -->
+<section class="screen on" id="progress">
+  <div class="grid2" style="margin-bottom:24px">
+    <div>
+      <h1>Phase 3 of 5: Strength Valley</h1>
+      <p>Day 34 since injury <span class="muted">(typical range, not a promise. Gates open when your leg is ready, not when the calendar says so.)</span></p>
+    </div>
+    <div class="card" style="padding:12px 18px">
+      <b>Welcome back, Runa.</b> No catching up needed. Quick check-in whenever you are ready. <span class="proto">prototype</span>
+    </div>
+  </div>
+
+  <div class="mapwrap"><div class="map" id="map">
+    <svg width="1900" height="340" viewBox="0 0 1900 340">
+      <path d="M60 230 C300 150 400 300 640 230 S 950 150 1180 230 S 1500 300 1840 230" fill="none" stroke="#2b2350" stroke-width="16" stroke-linecap="round"/>
+      <path d="M60 230 C300 150 400 300 640 230 S 950 150 1180 230 S 1500 300 1840 230" fill="none" stroke="#ffe27a" stroke-width="8" stroke-linecap="round" stroke-dasharray="4 18"/>
+    </svg>
+    <div class="lvl done" style="left:120px;top:150px"><div class="badge">1</div><span class="nm">Protect</span><small>cleared</small></div>
+    <div class="gate" style="left:290px;top:140px"><div class="bar"></div>gate passed</div>
+    <div class="lvl done" style="left:460px;top:190px"><div class="badge">2</div><span class="nm">Early loading</span><small>cleared</small></div>
+    <div class="gate" style="left:650px;top:150px"><div class="bar"></div>gate passed</div>
+    <div class="lvl now" style="left:850px;top:130px"><div class="badge">3</div><span class="nm">Progressive strengthening</span><small>you are here</small></div>
+    <div class="avatar" style="left:850px;top:60px" title="Your left calf, getting stronger">🦵💪</div>
+    <div class="gate" style="left:1030px;top:140px"><div class="bar" style="border-color:#b00020"></div><b>Gate: 2 of 4 met</b><br>not yet, 2 left</div>
+    <div class="lvl next" style="left:1250px;top:190px"><div class="badge">4</div><span class="nm">Plyometric</span><small>locked</small></div>
+    <div class="gate" style="left:1450px;top:150px"><div class="bar"></div>locked</div>
+    <div class="lvl next" style="left:1680px;top:130px"><div class="badge">5</div><span class="nm">Sport-specific &amp; contact</span><small>locked</small></div>
+  </div></div>
+  <p class="muted">Scroll the map sideways. Phases are draft, awaiting physio review. <span class="proto">prototype</span></p>
+
+  <div class="grid2" style="margin-top:20px">
+    <div class="stack">
+      <div class="card">
+        <h2>Phase 3 gate: what is left?</h2>
+        <div class="crit met"><span class="ic">✅</span><div><b>Pain during activity 2/10 or less</b><br><span class="muted">Now 2/10. Met.</span></div></div>
+        <div class="crit met"><span class="ic">✅</span><div><b>Morning stiffness under 15 min</b><br><span class="muted">Now 10 min. Met.</span></div></div>
+        <div class="crit out"><span class="ic">🟠</span><div><b>Heel-raise symmetry 90% or more</b> <span class="sticker w">working target, borrowed from hamstring evidence</span><br><span class="muted">Left 18, right 21 = 86%. Not met yet.</span></div></div>
+        <div class="crit unt"><span class="ic">❔</span><div><b>Single-leg hop pain-free</b><br><span class="muted">Not yet tested. Saved for the next boss challenge.</span></div></div>
+        <p><b>Today's call: HOLD in Phase 3. Retest in 5-7 days.</b> That is "not yet", not failure.</p>
+      </div>
+      <div class="card">
+        <h2>Trends</h2>
+        <div class="grid3">
+          <div><b>Pain (activity)</b><svg viewBox="0 0 200 80" width="100%"><polyline fill="none" stroke="#ff6fa5" stroke-width="5" stroke-linecap="round" points="5,15 40,22 75,30 110,40 145,52 180,56"/></svg><div class="muted">6/10 to 2/10 over 5 weeks</div></div>
+          <div><b>Strength (heel raises, L)</b><svg viewBox="0 0 200 80" width="100%"><polyline fill="none" stroke="#3aa0ff" stroke-width="5" stroke-linecap="round" points="5,70 40,62 75,52 110,40 145,30 180,24"/></svg><div class="muted">6 to 18 reps</div></div>
+          <div><b>Symmetry %</b><svg viewBox="0 0 200 80" width="100%"><line x1="0" y1="25" x2="200" y2="25" stroke="#2b2350" stroke-dasharray="5 4"/><text x="4" y="20" font-size="10">90% working target</text><polyline fill="none" stroke="#2fcf7f" stroke-width="5" stroke-linecap="round" points="5,72 40,62 75,52 110,44 145,36 180,33"/></svg><div class="muted">86% now. Few data points, so uncertain.</div></div>
+        </div>
+        <p class="muted">Sample trend lines. <span class="proto">prototype</span></p>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="card ladder">
+        <h2>Return-to-sport ladder</h2>
+        <p class="muted">Each sport is cleared on its own. Never two high-demand contact sports in the same week.</p>
+        <b>🏀 Basketball</b>
+        <div class="step">✅ Brisk walking</div><div class="step locked">🔒 Jogging (needs Phase 4)</div><div class="step locked">🔒 Cutting and jumping drills</div><div class="step locked">🔒 Full practice</div>
+        <br><b>🏉 Tag rugby</b>
+        <div class="step">✅ Brisk walking</div><div class="step locked">🔒 Jogging (needs Phase 4)</div><div class="step locked">🔒 Agility and tag drills</div><div class="step locked">🔒 Full match. Cleared in a different week from basketball.</div>
+      </div>
+      <div class="card">
+        <h3>🧍 Leg strength avatar</h3>
+        <div class="muted">Left (injured) vs right, single-leg heel raises</div>
+        <p>Left 18 <div class="legbar"><i style="width:86%"></i></div></p>
+        <p>Right 21 <div class="legbar"><i style="width:100%"></i></div></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1 INTAKE ============ -->
+<section class="screen" id="intake">
+  <h1>🎒 Pack your bag: safety intake <span class="proto">prototype</span></h1>
+  <p>Before any quest starts we need to check it is safe. This is not a diagnosis. We are a coach, not a clinician.</p>
+  <div class="grid2">
+    <div class="card" id="intakeForm">
+      <div class="chk"><input type="checkbox" id="i_clin"><label for="i_clin"><b>A clinician has assessed my calf injury.</b></label></div>
+      <div class="field-row"><label>How did it happen?</label><select id="i_mech" style="font:inherit;padding:6px;border:3px solid #2b2350;border-radius:12px"><option value="">Choose...</option><option>Sprinting / sudden push-off</option><option>Jumping or landing</option><option>Gradual build-up</option><option>Other</option></select></div>
+      <div class="field-row"><label>When did it start?</label><input type="text" id="i_onset" placeholder="e.g. 29 Aug, during tag rugby" style="font:inherit;padding:6px;border:3px solid #2b2350;border-radius:12px"></div>
+      <h3>Clot (DVT) risk factors. Tick any that apply</h3>
+      <div class="chk"><input type="checkbox" class="rfx" id="d1"><label for="d1">Recent long-haul travel or long immobility</label></div>
+      <div class="chk"><input type="checkbox" class="rfx" id="d2"><label for="d2">Previous clot, or a clotting condition</label></div>
+      <div class="chk"><input type="checkbox" class="rfx" id="d3"><label for="d3">Recent surgery or leg cast</label></div>
+      <div class="chk"><input type="checkbox" class="rfx" id="d4"><label for="d4">Whole-leg swelling, warmth or redness</label></div>
+      <h3>Achilles rupture signs. Tick any that apply</h3>
+      <div class="chk"><input type="checkbox" class="rfx" id="a1"><label for="a1">A pop or snap at the time, like being kicked</label></div>
+      <div class="chk"><input type="checkbox" class="rfx" id="a2"><label for="a2">A visible gap or dent above the heel</label></div>
+      <div class="chk"><input type="checkbox" class="rfx" id="a3"><label for="a3">Cannot rise onto toes at all</label></div>
+      <button class="btn g" id="intakeGo">Check my bag</button>
+      <button class="btn w" id="intakeDemo" style="margin-left:8px">Fill with sample (all clear)</button>
+    </div>
+    <div id="intakeResult">
+      <div class="card"><h3>What happens next</h3><p>If everything is complete and clear, your quest plan can be created. If anything is missing or a warning sign is ticked, we <b>stop</b> and point you to a clinician. No plan is built in that case.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2 CHECK-IN ============ -->
+<section class="screen" id="checkin">
+  <h1>💬 Daily check-in <span class="sticker g">+20 XP for an honest log</span></h1>
+  <p class="muted">XP is for logging honestly, whatever the numbers say. Missed yesterday? No problem, nothing is lost.</p>
+  <div class="grid2">
+    <div class="stack">
+      <div class="card">
+        <h3>Just tell the coach</h3>
+        <div class="chat me">"felt tight after the walk, a bit sore this morning"</div>
+        <div id="parsed"></div>
+        <div id="clarify"></div>
+        <button class="btn b" id="parseBtn">Turn it into fields</button>
+        <p class="muted">Faked parsing for the demo. <span class="proto">prototype</span></p>
+      </div>
+      <div class="card" id="tilesCard">
+        <h3>Or tap the tiles</h3>
+        <div class="field-row"><label>Pain at rest</label><div class="tiles" data-k="rest" data-faces="1"></div></div>
+        <div class="field-row"><label>Pain during activity</label><div class="tiles" data-k="act"></div></div>
+        <div class="field-row"><label>Next-day soreness</label><div class="tiles" data-k="sore" data-opts="😎|None,🙂|Mild,😬|Medium,😣|Strong"></div></div>
+        <div class="field-row"><label>Walking quality</label><div class="tiles" data-k="walk" data-opts="🚶|Normal,🚶‍♂️|Slight limp,🦽|Clear limp"></div></div>
+        <div class="field-row"><label>Morning stiffness</label><div class="tiles" data-k="stiff" data-opts="😌|None,⏱️|Under 15 min,🥶|15-30 min,🧊|Over 30 min"></div></div>
+        <button class="btn g" id="logBtn">Save log</button>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="card"><h3>How the coach decides to ask</h3><p>It only asks a follow-up when a <b>safety or progression field</b> is missing: pain at rest, pain during activity, or stiffness. Soreness and walking quality can stay as estimates.</p></div>
+      <div class="card"><h3>Higher pain?</h3><p>Log it honestly. You still earn the XP. If it is worsening, new and sharp, or comes with any red-flag sign, the coach stops the plan and shows the red-flag screen. There is no reward or streak attached to that.</p>
+      <button class="btn w" data-go="redflag">See the red-flag screen</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 RED FLAG ============ -->
+<section class="screen" id="redflag">
+  <div class="stopbar">STOP. Your plan has been paused.</div>
+  <h1>Possible warning signs: get medical help</h1>
+  <p style="font-size:18px;max-width:900px">This app cannot tell you what is wrong. What you described needs a person to check it. Do not continue exercises until you have been assessed.</p>
+  <div class="grid2">
+    <div>
+      <div class="rf-box em">
+        <h2>EMERGENCY: get help now</h2>
+        <p><b>Call 999 or go to A&amp;E now</b> if you have any of these:</p>
+        <ul><li>Swelling of the whole leg, with warmth or redness</li><li>Leg feels tight, looks pale or blue, or is tingling or numb</li><li>Sudden breathlessness or chest pain</li></ul>
+        <p><a class="rf-btn red" href="#" onclick="return false">Call 999</a></p>
+      </div>
+      <div class="rf-box urgent">
+        <h2>URGENT REVIEW: contact a clinician within 24 hours</h2>
+        <ul><li>Pain getting worse 48-72 hours after activity</li><li>New sharp pain in the calf or behind the heel</li><li>A visible gap, dent or lump in the calf or tendon</li><li>Cannot put weight on the leg</li></ul>
+        <p>Ring your GP, physiotherapist or NHS 111. Do not take anti-inflammatory painkillers unless your clinician says so. Ask your clinician.</p>
+        <p><a class="rf-btn" href="#" onclick="return false">Call NHS 111</a></p>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border:3px solid #000">
+        <h3>What the app has done</h3>
+        <ul><li>Plan stopped. Today's session is not available.</li><li>Escalation recorded: <b id="rfTime">today</b>, tier shown above.</li><li>No XP, streak or progress is attached to this.</li></ul>
+        <h3>Next</h3>
+        <p>When a clinician has assessed you, come back and update your safety intake. Resuming is only possible after that.</p>
+        <button class="btn w" data-go="intake">Update safety intake</button>
+        <p class="muted" style="margin-top:14px">Prototype screen. In the real product this appears automatically when a check-in contains a red flag.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 PLAN ============ -->
+<section class="screen" id="plan">
+  <h1>🎒 Today's quest: 5 moves <span class="sticker g">+50 XP for finishing</span></h1>
+  <p>Easy, steady, stay at 3/10 discomfort or below. If pain climbs, stop and log it. Stopping earns the same XP as finishing.</p>
+  <div class="grid2">
+    <div>
+      <div id="exlist"></div>
+      <button class="btn g" id="doneBtn">Finish session</button>
+    </div>
+    <div class="stack">
+      <div class="card"><h3>Evidence labels, explained</h3>
+        <p><span class="ev cs">Calf-specific</span> studied in calf injuries.</p>
+        <p><span class="ev ex2">Extrapolated</span> borrowed from hamstring or tendon research.</p>
+        <p><span class="ev ge">General</span> common rehab practice.</p>
+        <p><span class="ev nf">No female-specific research found</span> shown where it applies.</p>
+        <p class="muted">Phase 3 content is a draft awaiting physio review.</p></div>
+      <div class="card"><h3>Why these today?</h3><p>You are in Phase 3 (HOLD). The plan builds heel-raise strength on the left side, which is the outstanding gate item. Calendar time did not choose this.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 GATE ============ -->
+<section class="screen" id="gate">
+  <div class="card boss">
+    <h1>👾 Boss challenge: the Phase 3 gate</h1>
+    <p>Three small tests, then a pain check. Stop any test if it hurts more than 3/10. Stopping is fine and still counts.</p>
+  </div>
+  <div class="step-nav" style="margin-top:20px"><span class="on" data-st="1">1 Heel raises</span><span data-st="2">2 Hops</span><span data-st="3">3 Pain check</span><span data-st="4">4 Result</span></div>
+  <div class="grid2">
+    <div class="card" id="gst1">
+      <h2>Round 1: heel-raise-to-failure</h2>
+      <p>Single-leg, one leg at a time, same pace, to failure. Count clean reps.</p>
+      <div class="field-row"><label>Left (injured)</label><input type="number" id="hl" value="18" min="0"></div>
+      <div class="field-row"><label>Right</label><input type="number" id="hr" value="21" min="0"></div>
+      <p>Symmetry: <b id="symv">86%</b> <span class="sticker w">90% = working target, borrowed from hamstring evidence</span></p>
+      <button class="btn b" data-st="2">Next round</button>
+    </div>
+    <div class="card" id="gst2" style="display:none">
+      <h2>Round 2: hops</h2>
+      <p>Only do these if the heel raises felt fine. Skip if unsure. Skipped means "not yet tested", not failed.</p>
+      <div class="chk"><input type="radio" name="hop" id="hop0" value="skip" checked><label for="hop0">Skip hops today (not yet tested)</label></div>
+      <div class="chk"><input type="radio" name="hop" id="hop1" value="ok"><label for="hop1">Single hop done, pain-free</label></div>
+      <div class="chk"><input type="radio" name="hop" id="hop2" value="pain"><label for="hop2">Single hop done, with pain</label></div>
+      <p class="muted">Triple hop is added in Phase 4 prep. Sample data has hop untested.</p>
+      <button class="btn b" data-st="3">Next round</button>
+    </div>
+    <div class="card" id="gst3" style="display:none">
+      <h2>Round 3: pain check</h2>
+      <p>Pain during activity today, 0-10:</p>
+      <div class="tiles" id="gpain"></div>
+      <button class="btn b" data-st="4" style="margin-top:14px">See result</button>
+    </div>
+    <div class="card" id="gst4" style="display:none">
+      <h2>Gate result</h2>
+      <div class="verdict" id="verdict"></div>
+    </div>
+    <div class="card"><h3>Phase 3 gate rules</h3>
+      <div class="crit met"><span class="ic">✅</span>Pain in activity 2/10 or less</div>
+      <div class="crit met"><span class="ic">✅</span>Morning stiffness under 15 min</div>
+      <div class="crit out"><span class="ic">🟠</span>Symmetry 90% or more</div>
+      <div class="crit unt"><span class="ic">❔</span>Single-leg hop pain-free</div>
+      <p class="muted">Advance needs all four. Phase is chosen by criteria, not by days.</p></div>
+  </div>
+</section>
+</main>
+
+<footer class="about">
+  <div class="card" style="background:#e9f4ff">
+    <h3>What this direction is betting on</h3>
+    <div>1. Play lifts adherence: XP, a map and a friendly avatar make the daily log feel like a small win rather than homework.</div>
+    <div>2. Rehab dread falls when "HOLD" is framed as "not yet, here is what is left", and XP rewards honest logging, never pushing through pain.</div>
+    <div>3. Safety stays serious: the red-flag screen drops all play, colour and reward, and that contrast is the test of whether this tone is safe. <span class="proto">prototype</span></div>
+  </div>
+</footer>
+<div class="pop" id="pop"></div>
+
+<script>
+(function(){
+var S={xp:310,checkin:{rest:0,act:null,sore:null,walk:null,stiff:null}};
+var screens=document.querySelectorAll('.screen');
+function show(id){
+  screens.forEach(function(s){s.classList.toggle('on',s.id===id)});
+  document.querySelectorAll('#nav button').forEach(function(b){b.classList.toggle('on',b.dataset.s===id)});
+  document.body.classList.toggle('serious',id==='redflag');
+  if(id==='redflag'){document.getElementById('rfTime').textContent=new Date().toLocaleString('en-GB')+' (urgent and emergency guidance shown)';}
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('#nav button').forEach(function(b){b.onclick=function(){show(b.dataset.s)}});
+document.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){show(b.dataset.go)}});
+function toast(t){var p=document.getElementById('pop');p.textContent=t;p.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(function(){p.style.display='none'},2200)}
+function addXp(n,why){S.xp+=n;document.getElementById('xpnum').textContent=S.xp+' XP';var f=document.getElementById('xpfill');f.style.width=Math.min(100,62+(S.xp-310)/2)+'%';toast('+'+n+' XP '+why)}
+
+/* tiles */
+var faces=['😀','🙂','🙂','😐','😐','😕','😟','😣','😖','😭','🆘'];
+function mkTiles(el,opts,cb){
+  el.innerHTML='';
+  opts.forEach(function(o,i){
+    var b=document.createElement('button');b.className='tile';b.innerHTML='<b>'+o[0]+'</b><span>'+o[1]+'</span>';
+    b.onclick=function(){el.querySelectorAll('.tile').forEach(function(t){t.classList.remove('sel')});b.classList.add('sel');cb&&cb(i,o)};
+    el.appendChild(b);
+  });
+}
+function numOpts(){var a=[];for(var i=0;i<=10;i++)a.push([faces[i],String(i)]);return a}
+document.querySelectorAll('#tilesCard .tiles').forEach(function(el){
+  var k=el.dataset.k;
+  var opts=el.dataset.opts?el.dataset.opts.split(',').map(function(s){return s.split('|')}):numOpts();
+  if(k==='stiff'||k==='sore'||k==='walk'){opts=el.dataset.opts.split(',').map(function(s){return s.split('|')})}
+  mkTiles(el,opts,function(i){S.checkin[k]=i});
+});
+document.getElementById('logBtn').onclick=function(){
+  var c=S.checkin;
+  if(c.act===null||c.rest===null){toast('Tap pain at rest and during activity first. Those two matter most.');return}
+  if(c.act>=7||c.rest>=5){show('redflag');return}
+  addXp(20,'for an honest log');
+};
+
+/* parse demo */
+document.getElementById('parseBtn').onclick=function(){
+  var p=document.getElementById('parsed');
+  p.innerHTML='<div class="muted">Coach heard:</div>'+
+   '<span class="field">Next-day soreness: <b>Mild</b> (from "a bit sore")</span>'+
+   '<span class="field">Walking quality: <b>Slight tightness</b> (from "felt tight after the walk")</span>'+
+   '<span class="field">Morning stiffness: <b>10 min</b> <i class="muted">(estimate, please confirm)</i></span>'+
+   '<span class="field">Pain at rest: <b>0/10</b> <i class="muted">(carried from yesterday)</i></span>'+
+   '<span class="field" style="border-style:dashed">Pain during activity: <b>?</b></span>';
+  var c=document.getElementById('clarify');
+  c.innerHTML='<div class="chat">One thing I need: pain <b>during</b> the walk, 0-10? I will not guess this one.</div><div class="tiles" id="clq"></div>';
+  mkTiles(document.getElementById('clq'),numOpts().slice(0,6),function(i){
+    p.lastChild.outerHTML='<span class="field">Pain during activity: <b>'+i+'/10</b> (you told me)</span>';
+    S.checkin.act=i;S.checkin.rest=0;
+    c.innerHTML='<div class="chat">Thanks. All four fields filled. Nothing here changes today\'s plan.</div>';
+    addXp(20,'for an honest log');
+  });
+};
+
+/* intake */
+function intake(ok){
+  var r=document.getElementById('intakeResult');
+  var f=document.getElementById('intakeForm');
+  var clin=f.querySelector('#i_clin').checked,mech=f.querySelector('#i_mech').value,onset=f.querySelector('#i_onset').value.trim();
+  var flags=[].slice.call(f.querySelectorAll('.rfx')).filter(function(x){return x.checked}).map(function(x){return x.nextElementSibling.textContent});
+  var missing=[];if(!clin)missing.push('a clinician has not confirmed assessment');if(!mech)missing.push('how it happened');if(!onset)missing.push('when it started');
+  if(flags.length||missing.length){
+    r.innerHTML='<div class="blocked"><h2>We cannot build a plan yet</h2><p><b>Please see a clinician first.</b> This app cannot assess your injury.</p>'+
+    (flags.length?'<p>Warning signs ticked:</p><ul><li>'+flags.join('</li><li>')+'</li></ul><p>These can need urgent attention. Ring NHS 111, or 999 if the whole leg is swollen, warm, red, pale or tingling.</p>':'')+
+    (missing.length?'<p>Still missing:</p><ul><li>'+missing.join('</li><li>')+'</li></ul>':'')+
+    '<p>Plan creation is blocked until this is resolved. This is not a diagnosis.</p></div>';
+  }else{
+    r.innerHTML='<div class="card" style="background:#d6f8e5"><h2>Bag packed! 🎒</h2><p>Intake complete and no warning signs ticked. Your Phase 3 plan is available. <span class="muted">This is not a diagnosis. Keep following your clinician.</span></p><button class="btn g" data-go="plan" id="toPlan">Go to today\'s quest</button></div>';
+    document.getElementById('toPlan').onclick=function(){show('plan')};
+  }
+}
+document.getElementById('intakeGo').onclick=intake;
+document.getElementById('intakeDemo').onclick=function(){
+  var f=document.getElementById('intakeForm');
+  f.querySelector('#i_clin').checked=true;f.querySelector('#i_mech').value='Sprinting / sudden push-off';f.querySelector('#i_onset').value='29 Aug, during tag rugby';
+  f.querySelectorAll('.rfx').forEach(function(x){x.checked=false});intake();
+};
+
+/* plan */
+var EX=[
+ ['🪑','Seated heel raises','3 x 15, slow','Calf-specific',0,''],
+ ['🧍','Standing heel raises, both legs','3 x 12, 3 sec lower','Calf-specific',0,''],
+ ['⏸️','Isometric heel-raise holds','5 x 30 sec at mid-range','Extrapolated (from hamstring/tendon research)',1,'No female-specific research found'],
+ ['🦩','Single-leg balance','3 x 30 sec each leg','General',2,''],
+ ['⬇️','Eccentric lowers (left leg)','3 x 8, up on two, down on one','Extrapolated (from hamstring/tendon research)',1,'No female-specific research found']
+];
+var cls=['cs','ex2','ge'];
+var el=document.getElementById('exlist');
+EX.forEach(function(e,i){
+  var d=document.createElement('div');d.className='ex';
+  d.innerHTML='<div class="em">'+e[0]+'</div><div><b>'+e[1]+'</b><br><span class="muted">'+e[2]+'</span><br><span class="ev '+cls[e[4]]+'">'+e[3]+'</span>'+(e[5]?'<span class="ev nf">'+e[5]+'</span>':'')+'</div><button class="btn w">Done</button>';
+  d.querySelector('button').onclick=function(){d.classList.toggle('done')};
+  el.appendChild(d);
+});
+document.getElementById('doneBtn').onclick=function(){addXp(50,'for the session')};
+
+/* gate */
+function sym(){var l=+document.getElementById('hl').value,r=+document.getElementById('hr').value;return r>0?Math.round(l/r*100):0}
+['hl','hr'].forEach(function(id){document.getElementById(id).oninput=function(){document.getElementById('symv').textContent=sym()+'%'}});
+var gp=null;mkTiles(document.getElementById('gpain'),numOpts(),function(i){gp=i});
+document.getElementById('gpain').children[2].classList.add('sel');gp=2;
+function gstep(n){
+  for(var i=1;i<=4;i++)document.getElementById('gst'+i).style.display=(i==n?'block':'none');
+  document.querySelectorAll('.step-nav span').forEach(function(s){s.classList.toggle('on',s.dataset.st==n)});
+  if(n==4)verdict();
+}
+function verdict(){
+  var s=sym(),hop=document.querySelector('input[name=hop]:checked').value,v=document.getElementById('verdict'),why=[];
+  if(gp>=4){v.innerHTML='<h2>HOLD, and check with your clinician</h2><p>Pain of '+gp+'/10 during testing. We stop here. If pain is new or sharp, see the red-flag screen.</p>';return}
+  if(s<90)why.push('Heel-raise symmetry is '+s+'%, below the 90% working target (borrowed from hamstring evidence).');
+  if(hop==='skip')why.push('Single-leg hop is not yet tested.');
+  if(hop==='pain')why.push('Single-leg hop was painful.');
+  if(!why.length){v.innerHTML='<h2>ADVANCE to Phase 4 🎉</h2><p>All four criteria met: pain 2/10 or less, stiffness under 15 min, symmetry '+s+'%, hop pain-free. The 90% target is a working target, borrowed from hamstring evidence. Please confirm with your clinician.</p>';addXp(100,'for passing a gate, honestly tested');return}
+  v.innerHTML='<h2>HOLD in Phase 3: not yet, here is what is left</h2><ul><li>'+why.join('</li><li>')+'</li></ul><p><b>Retest in 5-7 days.</b> Left '+document.getElementById('hl').value+' vs right '+document.getElementById('hr').value+' = '+s+'%. This is a call about timing, not about you. Honest testing earns XP either way.</p><p class="muted">Based on a small number of tests, so some uncertainty.</p>';
+  addXp(30,'for an honest test');
+}
+document.querySelectorAll('[data-st]').forEach(function(b){b.onclick=function(){gstep(+b.dataset.st)}});
+gstep(1);
+})();
+</script>
+</body>
+</html>
