@@ -13,7 +13,7 @@ Exploring different ways to solve the problem before committing to one.
 - Lovable prototype (landing page with routes `/1` to `/5`): https://id-preview--2685ccc9-f51e-4cde-9287-ff774bcc672f.lovable.app
 - Lovable editor (owner access needed): https://lovable.dev/projects/2685ccc9-f51e-4cde-9287-ff774bcc672f
 
-The GitHub Pages link only works once Pages is enabled (Settings → Pages, source `main`, root folder) and the repo's plan allows it.
+GitHub Pages is enabled for this repo (source `main`, root folder).
 
 Lovable status: build in progress. Some directions are not built yet because Lovable credits ran out; the rest are to be built after the credit reset. The link is a preview URL and may change or require access if the project is later published or its visibility changed.
 
@@ -29,7 +29,7 @@ Figma Make produced its own five directions from the shared brief. Descriptions 
 | 04 | The Journal | "Make space for your recovery." Thoughtful and personal, recovery journal. | Editorial, serif, warm cream, "There's room to take your time". |
 | 05 | The Navigator | "See where you are. Know what comes next." Guided and visual, step-by-step pathway. | Purple, five-step pathway (Settle, Restore, Build, Prepare, Return). |
 
-### How they compare with the five directions in `plan.md` (my inference from the cards, not confirmed)
+### How they compare with the five directions in `plan.md` (mapping confirmed by the owner)
 
 - The Clinic looks closest to 1 Clinical notebook, The Fieldwork to 4 Performance lab, and The Companion to 5 Calm companion.
 - The Journal and The Navigator have no counterpart in the plan: an editorial journal, and a guided phase pathway.

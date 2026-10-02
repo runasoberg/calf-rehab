@@ -36,7 +36,7 @@ Rules:
 - Prototypes are desktop-first web apps (1440px), no backend. Keep each direction's styles and components separate; do not blend directions.
 
 ## Running and checking prototypes
-- Open any prototype directly in a browser; no server is needed. The published link only works once GitHub Pages is enabled (Settings → Pages, source `main`, root folder).
+- Open any prototype directly in a browser; no server is needed. GitHub Pages is enabled (source `main`, root folder) and serves the prototypes at https://runasoberg.github.io/calf-rehab/solution_discovery/prototypes/.
 - To verify a prototype headlessly, use Playwright with the pre-installed Chromium (`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`; do not run `playwright install`). Check there are no JS errors and that all six screens are reachable.
 
 ## Git and GitHub
