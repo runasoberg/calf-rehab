@@ -19,4 +19,4 @@ Root files: this `README.md` (orientation for people) and [`CLAUDE.md`](CLAUDE.m
 
 ## Status
 
-Solution discovery is in progress. Five low-fidelity directions exist as HTML prototypes in `solution_discovery/prototypes/`, with Lovable and Figma Make builds to follow. The interface decision is still open (PRD decision log, item 2). See `supporting_documentation/claude_1st_draft_PRD.md`.
+Solution discovery is in progress. Five low-fidelity directions exist as HTML prototypes in `solution_discovery/prototypes/`, with a Lovable build in progress ([preview](https://id-preview--2685ccc9-f51e-4cde-9287-ff774bcc672f.lovable.app)) and a Figma Make build to follow. The interface decision is still open (PRD decision log, item 2). See `supporting_documentation/claude_1st_draft_PRD.md`.

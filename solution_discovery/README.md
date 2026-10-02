@@ -6,4 +6,11 @@ Exploring different ways to solve the problem before committing to one.
 - `prompts.md`: shared brief, direction blocks, Lovable wrapper and Figma Make prompt.
 - `prototypes/`: five low-fidelity, single-file HTML prototypes plus `index.html`.
 
-Lovable project: "Calf Rehab Discovery" (build in progress). Evaluation results and the chosen direction should be recorded here.
+## Links
+
+- Lovable prototype (landing page with routes `/1` to `/5`): https://id-preview--2685ccc9-f51e-4cde-9287-ff774bcc672f.lovable.app
+- Lovable editor (owner access needed): https://lovable.dev/projects/2685ccc9-f51e-4cde-9287-ff774bcc672f
+
+Status: build in progress. Some directions are not built yet because Lovable credits ran out; the rest are to be built after the credit reset. The link is a preview URL and may change or require access if the project is later published or its visibility changed.
+
+ Evaluation results and the chosen direction should be recorded here.
