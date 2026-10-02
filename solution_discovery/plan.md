@@ -57,3 +57,7 @@ Walk each prototype with the same three tasks: (a) log "felt tight after the wal
 - Red-flag screen present and dominant in every direction; no streak-shaming; evidence label on every exercise.
 - Sample data identical across all five.
 - The five are visibly different in layout and navigation. If two feel alike, regenerate the weaker with a sharper bet.
+
+## Addendum: Figma Make results (2 Oct 2026)
+
+Figma Make built five directions of its own (The Companion, The Clinic, The Fieldwork, The Journal, The Navigator) rather than the five in this plan. Details and a tentative mapping are in `README.md` in this folder. Include them in the evaluation walk-through. They add two angles not covered above (editorial journal, guided pathway) and lack the conversational and playful ends of the range.
