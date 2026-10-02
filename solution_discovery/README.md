@@ -9,7 +9,7 @@ Exploring different ways to solve the problem before committing to one.
 ## Links
 
 - Claude HTML prototypes (GitHub Pages, index of all five): https://runasoberg.github.io/calf-rehab/solution_discovery/prototypes/
-- Figma Make prototypes (published site, five prototypes: The Clinic, The Navigator, The Fieldwork, The Journal, The Companion): https://toad-churn-64430315.figma.site/
+- Figma Make prototypes (published site, five prototypes: The Clinic, The Navigator, The Fieldwork, The Journal, The Companion): https://phys-prototypes.figma.site/
 - Lovable prototype (landing page with routes `/1` to `/5`): https://id-preview--2685ccc9-f51e-4cde-9287-ff774bcc672f.lovable.app
 - Lovable editor (owner access needed): https://lovable.dev/projects/2685ccc9-f51e-4cde-9287-ff774bcc672f
 
