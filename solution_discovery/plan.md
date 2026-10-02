@@ -1,6 +1,6 @@
 # Calf Rehab Coach: solution discovery plan
 
-Source: `docs/claude_1st_draft_PRD.md` (branch `claude/product-management-spec-87tvdk`). PRD Decision 2 leaves the interface open, pending solution discovery. This plan produces five deliberately different low-fidelity prototypes in both Claude and Lovable, so the direction can be narrowed before the technical spike or any high-fidelity work. The prompts are in `prompts.md`.
+Source: `supporting_documentation/claude_1st_draft_PRD.md`. PRD Decision 2 leaves the interface open, pending solution discovery. This plan produces five deliberately different low-fidelity prototypes in both Claude and Lovable, so the direction can be narrowed before the technical spike or any high-fidelity work. The prompts are in `prompts.md`.
 
 ## Assumptions (correct any that are wrong)
 
