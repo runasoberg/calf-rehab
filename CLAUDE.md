@@ -27,7 +27,7 @@ This is a docs-and-prototypes repo. There is no build, lint or test tooling.
 ## Prototype tracks (solution_discovery)
 The same brief is built three ways, so changes ripple across all three:
 - **Claude HTML:** single-file, hard-coded-data prototypes in `solution_discovery/prototypes/` (`index.html` links all five), published via GitHub Pages.
-- **Lovable:** project "Calf Rehab Discovery", built from a copy of the brief stored as Lovable project knowledge (10,000-character limit). The build was paused when credits ran out.
+- **Lovable:** project "Calf Rehab Discovery", built from a copy of the brief stored as Lovable project knowledge (10,000-character limit). Routes /1 to /3 were built; /4 and /5 were queued and unconfirmed at last check (see `solution_discovery/README.md`). Credits ran out twice.
 - **Figma Make:** published site at https://phys-prototypes.figma.site/. Make chose its own five directions (Companion, Clinic, Fieldwork, Journal, Navigator), so they do not map one-to-one to the plan. See `solution_discovery/README.md`.
 
 Rules:

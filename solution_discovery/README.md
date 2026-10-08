@@ -15,7 +15,19 @@ Exploring different ways to solve the problem before committing to one.
 
 GitHub Pages is enabled for this repo (source `main`, root folder).
 
-Lovable status: build in progress. Some directions are not built yet because Lovable credits ran out; the rest are to be built after the credit reset. The link is a preview URL and may change or require access if the project is later published or its visibility changed.
+## Lovable build status
+
+Last verified 5 Oct 2026 (Lovable connector access has since lapsed, so later progress is unverified):
+
+| Route | Direction | Status |
+|---|---|---|
+| `/1` | Clinical notebook | Built |
+| `/2` | Conversation is the interface | Built |
+| `/3` | Recovery quest | Built and self-tested by Lovable; also fixed `/2` build errors |
+| `/4` | Performance lab | Requested on 6 Oct, queued behind older messages; completion not confirmed |
+| `/5` | Calm companion | Queued since 2 Oct; completion not confirmed |
+
+Open the preview routes above to see what exists now. Note the Lovable credits ran out twice, and the free plan may do so again. The preview link may change or need access if the project's visibility changes. Lovable's own sample data and exercise doses are placeholders and need physio review.
 
 ## Figma Make directions
 
