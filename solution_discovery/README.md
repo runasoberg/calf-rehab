@@ -17,15 +17,15 @@ GitHub Pages is enabled for this repo (source `main`, root folder).
 
 ## Lovable build status
 
-Last verified 5 Oct 2026 (Lovable connector access has since lapsed, so later progress is unverified):
+Confirmed by the owner on 8 Oct 2026: routes `/1` to `/3` are built; `/4` and `/5` are not.
 
 | Route | Direction | Status |
 |---|---|---|
 | `/1` | Clinical notebook | Built |
 | `/2` | Conversation is the interface | Built |
 | `/3` | Recovery quest | Built and self-tested by Lovable; also fixed `/2` build errors |
-| `/4` | Performance lab | Requested on 6 Oct, queued behind older messages; completion not confirmed |
-| `/5` | Calm companion | Queued since 2 Oct; completion not confirmed |
+| `/4` | Performance lab | Not built (credits ran out before it ran) |
+| `/5` | Calm companion | Not built |
 
 Open the preview routes above to see what exists now. Note the Lovable credits ran out twice, and the free plan may do so again. The preview link may change or need access if the project's visibility changes. Lovable's own sample data and exercise doses are placeholders and need physio review.
 
