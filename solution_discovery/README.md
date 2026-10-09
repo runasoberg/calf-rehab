@@ -4,16 +4,28 @@ Exploring different ways to solve the problem before committing to one.
 
 - `plan.md`: the discovery plan, the five directions and how to evaluate them.
 - `prompts.md`: shared brief, direction blocks, Lovable wrapper and Figma Make prompt.
+- `opportunity_tree.html`: Teresa Torres-style opportunity solution tree (draft v0.1, 9 Oct 2026), built from the PRD and the Notion research. Single-file HTML, no build.
 - `prototypes/`: five low-fidelity, single-file HTML prototypes plus `index.html`.
 
 ## Links
 
 - Claude HTML prototypes (GitHub Pages, index of all five): https://runasoberg.github.io/calf-rehab/solution_discovery/prototypes/
+- Opportunity tree (GitHub Pages, once merged to `main`): https://runasoberg.github.io/calf-rehab/solution_discovery/opportunity_tree.html
 - Figma Make prototypes (published site, five directions; see below): https://phys-prototypes.figma.site/
 - Lovable prototype (landing page with routes `/1` to `/5`): https://id-preview--2685ccc9-f51e-4cde-9287-ff774bcc672f.lovable.app
 - Lovable editor (owner access needed): https://lovable.dev/projects/2685ccc9-f51e-4cde-9287-ff774bcc672f
 
 GitHub Pages is enabled for this repo (source `main`, root folder).
+
+## Opportunity tree
+
+`opportunity_tree.html` maps a proposed desired outcome (daily check-in completion, with premature phase advances as the counter-metric) to 8 opportunities, 22 sub-opportunities and candidate solutions tagged to PRD requirements R1 to R12. Each node is labelled Evidence, Inference or Assumption.
+
+- All evidence is one person's injury. The Notion interviews were retrospective (Sep 2026), and it is unconfirmed whether the GP, physio and nutritionist interviews were with real clinicians.
+- Recommended target (opinion, not data): opportunity 4, staying consistent day to day, starting with logging effort and scattered tools. Red-flag handling (opportunity 2) is treated as a guardrail on every branch.
+- Gap found: holding back on good days (opportunity 6) has no PRD requirement. Decision for the owner: whether pace and load caps belong in R5.
+- The desired outcome is a proposal. The adherence target and re-injury window are still open (PRD decision 7).
+- The four solution options for logging line up with prototype directions 1, 2, 4 and 5, so the prototype walk-through in `plan.md` doubles as the first test.
 
 ## Lovable build status
 
