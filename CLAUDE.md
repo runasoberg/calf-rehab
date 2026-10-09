@@ -9,7 +9,7 @@ This is a docs-and-prototypes repo. There is no build, lint or test tooling.
 
 ## Folder map
 - `problem_discovery/`: problem definition, interviews, injury and competitor research. Evidence only; no solutions. Currently empty; the material is in Notion.
-- `solution_discovery/`: options exploration (`plan.md`, `prompts.md`, `prototypes/`, and a `README.md` with all prototype links).
+- `solution_discovery/`: options exploration (`plan.md`, `prompts.md`, `opportunity_tree.html`, `prototypes/`, and a `README.md` with all prototype links). `opportunity_tree.html` is the Torres-style opportunity solution tree (single-file HTML); its evidence comes from the PRD and the Notion research pages, so re-check Notion before changing its nodes.
 - `final_product/`: the chosen solution once decided. Currently empty.
 - `supporting_documentation/`: cross-cutting reference (PRD drafts, protocols, templates, decision records).
 - Put new files in the folder matching the stage of work; if unsure, ask. Do not create new top-level folders without asking.
@@ -54,4 +54,6 @@ Rules:
 
 ## Tools
 - Notion: current source of truth for logging, exercise library and weekly reviews. Read from it; do not write unless asked.
+- Notion pages that feed the PRD and the opportunity tree: "Reverse engineer calf rehab programme" (problem definition), "User interviews" (patient, GP, physio, nutritionist; retrospective, Sep 2026), "Injury definition & research", "Competitive Landscape", "Calf rehab close-out reflections & learnings" (the session-log record) and "Calf recovery tracker & agent" (project idea). Search by these titles.
+- New discovery artefacts (such as the opportunity tree) are committed under `solution_discovery/` and listed in its `README.md`.
 - Lovable and other credit-based tools: confirm before spending credits, and stop and report if credits run out.
