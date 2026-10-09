@@ -1,0 +1,473 @@
+<title>Calf Rehab Opportunity Tree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one top-down tree (outcome > opportunities > sub-opportunities > solution ideas), drawn as a connector-lined outline so it reads at phone width. Prioritisation and test plans sit below it. */
+:root {
+  --bg: #f2f4f3;
+  --surface: #ffffff;
+  --ink: #14201f;
+  --muted: #53625d;
+  --line: #bcc8c3;
+  --accent: #0d5c63;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcecee;
+  --ev: #17684a;
+  --ev-bg: #dcf0e6;
+  --inf: #7d5400;
+  --inf-bg: #f7e9c3;
+  --as: #9c2f45;
+  --as-bg: #f8dde2;
+  --display: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1615; --surface: #162221; --ink: #e5eeeb; --muted: #9db1aa; --line: #34494a;
+    --accent: #62c4ca; --accent-ink: #072a2d; --accent-soft: #15383b;
+    --ev: #75d3a6; --ev-bg: #17372a; --inf: #ecc35f; --inf-bg: #3a2f12; --as: #f28ca1; --as-bg: #40202a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1615; --surface: #162221; --ink: #e5eeeb; --muted: #9db1aa; --line: #34494a;
+  --accent: #62c4ca; --accent-ink: #072a2d; --accent-soft: #15383b;
+  --ev: #75d3a6; --ev-bg: #17372a; --inf: #ecc35f; --inf-bg: #3a2f12; --as: #f28ca1; --as-bg: #40202a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 15px/1.55 var(--body); padding-inline: 16px; padding-block: 28px 64px; }
+.wrap { max-width: 980px; margin-inline: auto; display: flex; flex-direction: column; gap: 36px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); line-height: 1.08; font-weight: 700; }
+h2 { font-size: 1.45rem; line-height: 1.2; font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font: 500 11px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.lede { color: var(--muted); font-size: 1.02rem; }
+header { display: flex; flex-direction: column; gap: 14px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 400 12px/1.4 var(--mono); color: var(--muted); }
+
+/* caveat */
+.caveat { background: var(--inf-bg); color: var(--ink); border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; font-size: 0.93rem; }
+.caveat strong { color: var(--inf); }
+
+/* legend */
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.legend > div { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 0.87rem; }
+.legend .lv { font: 500 11px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+
+/* chips */
+.chip { display: inline-flex; align-items: center; gap: 5px; font: 500 11px/1 var(--mono); padding: 4px 7px; border-radius: 4px; white-space: nowrap; }
+.chip.evidence { background: var(--ev-bg); color: var(--ev); }
+.chip.inference { background: var(--inf-bg); color: var(--inf); }
+.chip.assumption { background: var(--as-bg); color: var(--as); }
+.chip.prd { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.chip.target { background: var(--accent); color: var(--accent-ink); }
+
+/* toolbar */
+.toolbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 8px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; border-bottom: 1px solid var(--line); }
+.toolbar .grp { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.toolbar button { font: 500 12px/1 var(--mono); background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; cursor: pointer; }
+.toolbar button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+/* outcome */
+.outcomes { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+.out-card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+.out-card.main { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.out-card.main .eyebrow, .out-card.main p { color: var(--accent-ink); }
+.out-card.main .eyebrow { opacity: 0.8; }
+.out-card h3 { font-size: 1.2rem; }
+.stem { width: 2px; height: 22px; background: var(--line); margin-left: 28px; }
+.pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* tree */
+#tree { display: flex; flex-direction: column; gap: 14px; }
+.opp { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; }
+.opp.is-target { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.opp > summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.opp > summary::-webkit-details-marker { display: none; }
+.opp-top { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.oid { font: 500 12px/1 var(--mono); color: var(--accent); }
+.opp h3 { font-size: 1.15rem; line-height: 1.3; }
+.opp .note { color: var(--muted); font-size: 0.88rem; max-width: 74ch; }
+.caret { margin-left: auto; font: 500 12px/1 var(--mono); color: var(--muted); }
+.opp[open] .caret::after { content: "collapse"; }
+.opp:not([open]) .caret::after { content: "expand"; }
+.subs { margin: 0 16px 16px 20px; padding-left: 0; list-style: none; border-left: 1.5px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.sub { position: relative; margin-left: 20px; background: var(--bg); border-radius: 6px; padding: 11px 13px; display: flex; flex-direction: column; gap: 7px; transition: opacity 0.15s; }
+.sub::before { content: ""; position: absolute; left: -20px; top: 22px; width: 20px; border-top: 1.5px solid var(--line); }
+.sub.dim, .opp.dim { opacity: 0.28; }
+.sub-top { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: baseline; }
+.sid { font: 500 11px/1 var(--mono); color: var(--muted); }
+.sub h4 { margin: 0; font: 600 0.97rem/1.4 var(--body); }
+.src { color: var(--muted); font-size: 0.84rem; max-width: 74ch; }
+.sols { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 2px; }
+.sol { font: 400 12px/1.35 var(--body); border: 1px dashed var(--accent); color: var(--ink); border-radius: 4px; padding: 5px 8px; max-width: 100%; }
+.sol b { font: 500 11px/1 var(--mono); color: var(--accent); margin-right: 4px; }
+body.hide-sols .sols { display: none; }
+
+/* tables */
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 0.87rem; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font: 500 11px/1.2 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+tr:last-child td { border-bottom: 0; }
+td.rate { font: 500 12px/1.3 var(--mono); white-space: nowrap; }
+.sec { display: flex; flex-direction: column; gap: 14px; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.box ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; }
+.sources { font-size: 0.85rem; color: var(--muted); display: flex; flex-direction: column; gap: 4px; padding-left: 18px; margin: 0; }
+@media (prefers-reduced-motion: reduce) { .sub { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Discovery · Draft v0.1 · 9 Oct 2026</span>
+    <h1>Calf Rehab Opportunity Tree</h1>
+    <p class="lede">An opportunity solution tree in Teresa Torres's format for the Calf Rehab Coach. It maps the outcome to the unmet needs found in the PRD and the Notion research, then to solution ideas and the assumptions to test first.</p>
+    <div class="meta"><span>Owner: Runa</span><span>Sources: PRD v0.1 (2 Oct), Notion research pages (24 Sep to 7 Oct)</span><span>Status: draft, not reviewed by a physio</span></div>
+  </header>
+
+  <div class="caveat" role="note">
+    <strong>Read this before using the tree</strong>
+    <p>Every opportunity here comes from one person's injury (Grade 2 medial gastrocnemius strain, Feb to Apr 2026). The Notion interviews were completed in Sep 2026 as a retrospective, and many answers are hypothetical ("where would you have gone?"). Torres advises against building on hypotheticals, so those nodes are labelled Inference. I could not tell from the pages whether the GP, physio and nutritionist interviews were held with real clinicians or compiled from literature, so I treat them as secondary until you confirm. No external user has been interviewed, so this tree is a starting hypothesis, not a validated map.</p>
+  </div>
+
+  <section class="sec" aria-labelledby="how">
+    <h2 id="how">How to read it</h2>
+    <div class="legend">
+      <div><span class="lv">Outcome</span>The measurable change the product should drive. One at a time.</div>
+      <div><span class="lv">Opportunity</span>A need, pain point or desire, written in the user's voice. Never a solution.</div>
+      <div><span class="lv">Sub-opportunity</span>A narrower slice of the need. Solve the smallest one that moves the outcome.</div>
+      <div><span class="lv">Solution idea</span>A way to meet it, tagged with the PRD requirement (R1 to R12) it maps to. Several per need, so they can be compared.</div>
+    </div>
+    <div class="pill-row" aria-label="Evidence labels">
+      <span class="chip evidence">● Evidence</span><span style="font-size:.87rem;color:var(--muted)">stated in the logs, interviews or cited literature on the Notion pages</span>
+      <span class="chip inference">◐ Inference</span><span style="font-size:.87rem;color:var(--muted)">my reading of the evidence, or an answer to a hypothetical question</span>
+      <span class="chip assumption">○ Assumption</span><span style="font-size:.87rem;color:var(--muted)">no direct evidence yet; needs a test</span>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="outcome">
+    <h2 id="outcome">Desired outcome</h2>
+    <div class="outcomes">
+      <div class="out-card">
+        <span class="eyebrow">Business outcome (PRD decision 7, partly open)</span>
+        <p>Recovery earlier than or on time with the clinical projection, if the plan adherence target is met, with no re-injury within a set window.</p>
+        <div class="pill-row"><span class="chip prd">Adherence target: not defined</span><span class="chip prd">Re-injury window: not defined</span></div>
+      </div>
+      <div class="stem" aria-hidden="true"></div>
+      <div class="out-card main">
+        <span class="eyebrow">Product outcome I propose (needs your confirmation)</span>
+        <h3>Raise the share of rehab days with a complete check-in, without raising premature phase advances</h3>
+        <p>This is the PRD's adherence metric (daily check-in completion rate) paired with its counter-metric (an advance followed by more pain or a re-injury within 2 weeks). It sits upstream of the business outcome and is something the product can influence directly. Targets are still TBD in the PRD, so I have not invented one.</p>
+        <div class="pill-row"><span class="chip prd" style="color:var(--accent-ink);border-color:var(--accent-ink)">Guardrail: red-flag escalation 100%</span><span class="chip prd" style="color:var(--accent-ink);border-color:var(--accent-ink)">Guardrail: evidence label on every recommendation</span></div>
+      </div>
+      <div class="stem" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="treeh">
+    <h2 id="treeh">Opportunities and solutions</h2>
+    <div class="toolbar" role="toolbar" aria-label="Tree controls">
+      <div class="grp" id="evFilter" aria-label="Highlight by evidence level"></div>
+      <div class="grp">
+        <button type="button" id="toggleSols" aria-pressed="true">Solution ideas: on</button>
+        <button type="button" id="toggleAll" aria-pressed="false">Collapse all</button>
+      </div>
+    </div>
+    <div id="tree"></div>
+  </section>
+
+  <section class="sec" aria-labelledby="prio">
+    <h2 id="prio">Choosing a target opportunity</h2>
+    <p>Torres's advice is to compare opportunities and commit to one at a time. These ratings are my judgement from the evidence above, not scored data. Rows use the four questions I think matter most for a personal tool: how directly it moves the outcome, how strong the evidence is, whether it is already handled today, and the PRD priority.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Opportunity</th><th>Link to outcome</th><th>Evidence</th><th>Already handled today?</th><th>PRD priority</th></tr></thead>
+      <tbody>
+        <tr><td>O1 Reach a clinician fast</td><td class="rate">Medium</td><td class="rate">Medium</td><td>Yes for the owner: hospital the same week</td><td class="rate">R1 P0 (gate only)</td></tr>
+        <tr><td>O2 Spot trouble early</td><td class="rate">High (safety)</td><td class="rate">Medium</td><td>Partly: manual red-flag list in the close-out notes</td><td class="rate">R2 P0</td></tr>
+        <tr><td>O3 Know I'm ready to progress</td><td class="rate">High</td><td class="rate">High</td><td>Manually in Notion plus Claude</td><td class="rate">R3, R6, R7 P0</td></tr>
+        <tr><td><strong>O4 Stay consistent</strong></td><td class="rate">High (it is the outcome)</td><td class="rate">High</td><td>No: logging and file-moving are manual</td><td class="rate">R4 P0, R10 P2</td></tr>
+        <tr><td>O5 A plan that fits me</td><td class="rate">Medium</td><td class="rate">High</td><td>Partly: the Claude project holds the profile</td><td class="rate">R5, R7 P0</td></tr>
+        <tr><td>O6 Hold back on good days</td><td class="rate">Medium to high</td><td class="rate">Medium (own log)</td><td>No</td><td class="rate">Not in the PRD</td></tr>
+        <tr><td>O7 Staged return and maintenance</td><td class="rate">Medium</td><td class="rate">Medium</td><td>Manually</td><td class="rate">R9 P1, R11 P2</td></tr>
+        <tr><td>O8 See and share progress</td><td class="rate">Low to medium</td><td class="rate">Low</td><td>Notion views</td><td class="rate">R8 P1, R12 P2</td></tr>
+      </tbody>
+    </table></div>
+    <div class="two">
+      <div class="box">
+        <h3>My recommendation (opinion)</h3>
+        <ul>
+          <li><strong>Target O4 first</strong>, starting with 4.1 (logging takes effort) and 4.3 (scattered tools). It maps straight to the outcome, has the strongest evidence of an unsolved gap, and the PRD names adherence as the real friction.</li>
+          <li><strong>Treat O2 as a guardrail, not a competitor.</strong> Red-flag handling is a hard requirement in every solution, so it should not be traded against other opportunities.</li>
+          <li><strong>Take O3 next</strong> (3.1 and 3.2), once the physio has reviewed the exit criteria.</li>
+          <li><strong>Defer O1 for v1.</strong> The only user already had a same-week assessment. It matters again if a pilot is ever planned.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>A gap in the PRD</h3>
+        <p style="font-size:.9rem">O6 (holding back on good days) has no requirement. The close-out log shows multiple falls on skis on day 28 and "pushed harder than I should have" on day 44, and says plainly that the high competitive drive is an asset for adherence and a risk factor for return. Today's pain-based rules would not catch it. Worth deciding whether pace and load caps belong in R5.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="compare">
+    <h2 id="compare">Target opportunity 4.1: solutions compared</h2>
+    <p>Torres asks for at least three different ways to meet the same opportunity before committing. These line up with the five prototype directions already in <code>solution_discovery/plan.md</code>, so the prototype walk-through can double as the first test.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Solution idea</th><th>Prototype direction</th><th>Assumption that must hold</th><th>Cheapest test</th></tr></thead>
+      <tbody>
+        <tr><td>A. Free text or voice update turned into structured fields (R4)</td><td>2 Conversation is the interface</td><td>The model extracts pain at rest, pain in activity, next-day soreness, walking quality and morning stiffness correctly from vague wording, and asks only when a gating field is missing.</td><td>Run a sample of past log entries (kept in Notion, not committed) through the prompt and compare against the fields originally entered. Test planted red-flag phrases too.</td></tr>
+        <tr><td>B. Quick-log chips and sliders with charts</td><td>4 Performance lab</td><td>A high-adherence, data-minded user finds chips faster than typing, and chips still capture what gates progression.</td><td>Walk task (a) in plan.md in both prototypes and time the log.</td></tr>
+        <tr><td>C. One guided step at a time, daily ritual</td><td>5 Calm companion</td><td>A short guided flow lowers the effort to return after a missed day.</td><td>Walk the prototype after skipping a day in the sample data. Judge the re-entry, not just the log.</td></tr>
+        <tr><td>D. Structured form inside Notion (status quo plus Claude)</td><td>1 Clinical notebook</td><td>The current process is slow because of the hand-offs between tools, not the form itself.</td><td>Count manual steps in one real day of logging today against solution A.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="two">
+      <div class="box">
+        <h3>Assumption tests to run before building</h3>
+        <ul>
+          <li><strong>Desirability.</strong> Which option do I open daily? Score speed to log and fit with the single-place direction, as plan.md already describes. Set the pass bar before testing, so the result cannot bend it.</li>
+          <li><strong>Feasibility.</strong> Extraction accuracy on real past entries, then a deliberate try at tricking the red-flag screen.</li>
+          <li><strong>Usability.</strong> How often the clarifying questions interrupt versus help.</li>
+          <li><strong>Viability.</strong> Whether Notion as source of truth plus a web UI works without hand-moving files. This is the infrastructure spike (milestone 1).</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>What a test cannot tell me</h3>
+        <p style="font-size:.9rem">Every test above uses one person, who is high-adherence and well resourced, so a pass shows the idea works for her and says little about anyone else. If a pilot is ever planned (decision 5), the same tree should be rebuilt from story-based interviews: "tell me about the last time you logged a session", rather than "would you use this?".</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="gaps">
+    <h2 id="gaps">Evidence gaps to close next</h2>
+    <div class="two">
+      <div class="box"><h3>Weakest nodes</h3>
+        <ul>
+          <li>4.4 (falling off after a missed day) and 8.2 (clinician share) are assumptions with no supporting entry in the notes.</li>
+          <li>1.2 and 2.3 lean on answers to hypothetical questions or on literature, not on lived behaviour.</li>
+          <li>The DVT co-occurrence figure (6 to 20%) is reported through a 2025 narrative review and was not checked against the original papers, as the Notion page itself says.</li>
+        </ul>
+      </div>
+      <div class="box"><h3>Ways to firm it up</h3>
+        <ul>
+          <li>Mine the Gastrocnemius Rehab Tracker for missed days and what preceded them. That turns 4.4 from assumption into evidence.</li>
+          <li>Confirm whether the GP, physio and nutritionist interviews were real, and re-run any that were not.</li>
+          <li>Have the physio friend review O3 and O7 (decision 3), including the 90% symmetry target, which is a working target borrowed from hamstring research.</li>
+          <li>If a pilot is planned, interview two or three recreational athletes after a clinician-confirmed calf strain, using story-based questions.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="src">
+    <h2 id="src">Sources</h2>
+    <ol class="sources">
+      <li>Spec: Calf Rehab Coach, Draft v0.1, 2 Oct 2026 (repo: <code>supporting_documentation/claude_1st_draft_PRD.md</code>; Notion: <a href="https://app.notion.com/p/3ed286bc708e817d89b7c0ff7d0777cd" target="_blank" rel="noopener">Spec page</a>)</li>
+      <li><a href="https://app.notion.com/p/3d3286bc708e8082a094caab1a29a88c" target="_blank" rel="noopener">Reverse engineer calf rehab programme</a>: problem definition and success criteria</li>
+      <li><a href="https://app.notion.com/p/3e5286bc708e80aab068fa657568e302" target="_blank" rel="noopener">User interviews</a>: patient, GP, physio and nutritionist interviews (Sep 2026, retrospective)</li>
+      <li><a href="https://app.notion.com/p/3e5286bc708e8126b6aaf1a1e447706c" target="_blank" rel="noopener">Injury definition &amp; research</a> (24 Sep 2026)</li>
+      <li><a href="https://app.notion.com/p/3e5286bc708e81619f6efdc07e401241" target="_blank" rel="noopener">Competitive Landscape</a> (24 Sep 2026; vendor claims, not hands-on testing)</li>
+      <li><a href="https://app.notion.com/p/359286bc708e807b953bf668a56885be" target="_blank" rel="noopener">Calf rehab close-out reflections &amp; learnings</a> (May to Aug 2026): the session-log record of what actually happened</li>
+      <li><a href="https://app.notion.com/p/30b286bc708e80aba88cd39770c77f4d" target="_blank" rel="noopener">Calf recovery tracker &amp; agent</a> (project idea, updated 7 Oct 2026)</li>
+      <li>Method: Teresa Torres, <em>Continuous Discovery Habits</em> (2021), opportunity solution tree. Applied from my knowledge of the book, not re-read for this page.</li>
+    </ol>
+  </section>
+</div>
+
+<script>
+/* Opportunity data. ev: evidence | inference | assumption. r: PRD requirement tag. */
+var OPPS = [
+  { id: "O1", t: "I need to get in front of a clinician quickly, before I start rehab.", ev: "evidence", prd: ["R1", "R12"],
+    note: "Patient interview: without a structured route the fallback would have been Google, and demotivation would have delayed seeing a physio. The PRD calls this friction bigger than content quality. For the owner it was already solved by a same-week hospital visit.",
+    subs: [
+      { id: "1.1", t: "I can't tell a calf strain from something more serious.", ev: "evidence",
+        src: "GP interview: Achilles rupture and DVT are the two differentials to exclude, and DVT can occur alongside a tear (6 to 20% as reported by a 2025 review, not re-verified). The product does not diagnose; it routes.",
+        sols: [["R1", "Safety intake that blocks the plan and shows a 'see a clinician' path if incomplete or flagged"], ["R1", "Capture mechanism, onset, DVT risk factors and Achilles signs before any plan"], ["R2", "Plain urgency tiers: urgent review versus emergency"]] },
+      { id: "1.2", t: "When I'm frustrated or low, I put off getting seen.", ev: "inference",
+        src: "Patient interview: a stated expectation about what would have happened, not a behaviour observed. Hypothetical, so treat with care.",
+        sols: [["R1", "Clinician-assessment confirmation as a required onboarding step"], ["R12", "One-page summary to take to the appointment"], ["R4", "Gentle nudge to book when intake is incomplete"]] }
+    ] },
+  { id: "O2", t: "I want to know straight away if something is going wrong.", ev: "evidence", prd: ["R2", "R11"],
+    note: "Re-injury risk is highest in the first two months (Sern-Kebschull 2024, via the Notion research page). A prior calf strain and older age are the strongest predictors of a future strain (Green & Pizzari 2017). Treated as a guardrail on every other branch.",
+    subs: [
+      { id: "2.1", t: "I can't tell normal soreness from a re-tear.", ev: "evidence",
+        src: "Close-out log: mild next-day soreness after the first rugby return was normal, while a rising trend across days is a red flag. The psychological-readiness list names 'treating normal post-session soreness as re-injury'.",
+        sols: [["R2", "Screen every check-in against the warning-sign list"], ["R4", "Show today's soreness beside the last 3 days, not alone"], ["R7", "Label what is normal after a first return and why"]] },
+      { id: "2.2", t: "If it's serious I want clear next steps, not reassurance.", ev: "evidence",
+        src: "Injury research §6: pain rising after 48 to 72 hours, whole-leg swelling or warmth, a new sharp pain, a visible defect or a tight, pale, tingling leg. Emergency signs include breathlessness or chest pain.",
+        sols: [["R2", "Hard stop of the plan with tiered instructions"], ["R2", "Record that an escalation was shown"], ["R2", "Never gamify or soften the red-flag screen"]] },
+      { id: "2.3", t: "I want my trend watched over days, not just today's number.", ev: "inference",
+        src: "Derived from the literature's call for frequent reassessment in the first two months. No interview statement says this directly.",
+        sols: [["R8", "Pain, soreness and stiffness trend on the progress view"], ["R11", "Re-injury watch for the first 2 months after return"]] }
+    ] },
+  { id: "O3", t: "I want to know whether I'm actually ready to move on.", ev: "evidence", prd: ["R3", "R6", "R7"],
+    note: "Physio interview: grade does not reliably predict recovery (one category spans 3 to 132 days), so progression should follow re-assessment, not the calendar. The close-out log's day-36 gate check left two criteria outstanding (10+ minutes of continuous jogging, and leg press or squat at 80% of pre-injury load), which correctly held the athlete in phase 3.",
+    subs: [
+      { id: "3.1", t: "I don't know what 'ready' means for my calf.", ev: "evidence",
+        src: "PRD R3: phases advance only when exit criteria are met. Phase names and criteria are drafts until the physio review (decision 3).",
+        sols: [["R3", "Phase model with exit criteria, met or outstanding"], ["R8", "Gate status always visible, with the reason for a hold"], ["R3", "Time since injury shown as context only"]] },
+      { id: "3.2", t: "I'm not sure how to run the tests or read the result.", ev: "inference",
+        src: "The owner ran the tests with a coach and a log, so the need for in-product guidance is my inference. Day 44 and 47: 40 versus 50 single-leg heel raises, an 80% symmetry that stayed stable.",
+        sols: [["R6", "Guided heel-raise-to-failure and hop tests with timers"], ["R6", "Auto-calculated symmetry against the gate"], ["R6", "Pain check built into each test"]] },
+      { id: "3.3", t: "My markers disagree and I don't know which to trust.", ev: "evidence",
+        src: "Close-out log: daytime pain cleared before morning stiffness, and the calf handled explosive sport movement before endurance caught up. The notes advise using stiffness as the more conservative marker.",
+        sols: [["R3", "Explicit conservative-marker rule for progressing load"], ["R3", "Advance or hold, with the deciding criterion named"]] },
+      { id: "3.4", t: "I need to know how certain the thresholds are.", ev: "evidence",
+        src: "A 2026 systematic review rates calf return-to-play criteria as low to very low certainty (Sañudo et al.). The 90% symmetry target is borrowed from hamstring research.",
+        sols: [["R7", "Label each recommendation: calf-specific, extrapolated or general"], ["R7", "Show '90%: working target, borrowed from hamstring evidence'"]] }
+    ] },
+  { id: "O4", t: "I want to keep going every day without it feeling like a chore.", ev: "evidence", prd: ["R4", "R10"], target: true,
+    note: "Nutritionist interview: knowledge and targets were fine, consistency was the gap. Competitive scan: for a motivated user the gap is adherence and fast access, not more content. PRD names adherence as the real friction.",
+    subs: [
+      { id: "4.1", t: "Logging takes effort and my updates are vague.", ev: "evidence",
+        src: "PRD R4 example: 'felt tight after the walk'. The tracker project idea asks for an agent that takes input and updates the tracker, alongside manual updates.",
+        sols: [["R4", "Free text or voice turned into structured fields"], ["R4", "Quick-log chips and sliders"], ["R4", "Ask a clarifying question only when a gating field is missing"], ["R4", "One guided step at a time"]] },
+      { id: "4.2", t: "Recovery tasks collide with real life.", ev: "evidence",
+        src: "Close-out log: cold plunge missed or swapped for a shower after matches (cycling home, social plans), and ski-day recovery meals delayed. The notes call it a real-world adherence problem, not a protocol failure.",
+        sols: [["R5", "Plan recovery steps around known sport and event days"], ["R10", "Reminders timed to the 60 to 90 minute post-match window"], ["R5", "Offer a realistic substitute when the ideal step is not possible"]] },
+      { id: "4.3", t: "My information is scattered and I move it between tools by hand.", ev: "evidence",
+        src: "Tracker project page: the goal is to stop manually sending files between the app, Notion and Claude. PRD decision 2 aims for all interfaces in one place, pending the infrastructure spike.",
+        sols: [["Spike", "Single web app over Notion as source of truth"], ["Spike", "Agent that reads the log and updates the plan"], ["R12", "Export instead of hand-built summaries"]] },
+      { id: "4.4", t: "After I miss a day, I find it hard to come back.", ev: "assumption",
+        src: "No entry in the notes shows this. The PRD sets a 'gentle prompt, not a penalty' principle, but not why. Test against missed days in the tracker.",
+        sols: [["R4", "Gentle prompt after a missed day, never a penalty"], ["R8", "'Pick up where you left off' summary"]] },
+      { id: "4.5", t: "My fuelling slips in practice, not in knowledge.", ev: "evidence",
+        src: "Nutritionist interview: targets were well designed, execution was inconsistent. Target calculation is already solved and out of scope.",
+        sols: [["R10", "Nudges and low-friction meal logging"], ["R10", "Skip target maths, per the PRD"]] }
+    ] },
+  { id: "O5", t: "I want a plan that fits me, not a generic template.", ev: "evidence", prd: ["R5", "R7"],
+    note: "Problem statement: generic guidance ignores the individual risk factors that drive re-injury. Ankle hypermobility, the owner's main risk factor, has no place in the calf-strain literature reviewed.",
+    subs: [
+      { id: "5.1", t: "My history isn't in the guidance.", ev: "evidence",
+        src: "Patient interview: repeated bilateral ankle sprains, self-attributed to hypermobility. Age and a prior calf strain are the strongest predictors of a future strain.",
+        sols: [["R5", "Risk profile (age, prior strain, ankle instability or hypermobility) feeds the daily plan"], ["R7", "Say plainly when the literature is silent on a factor"]] },
+      { id: "5.2", t: "My sport schedule and equipment limit what's possible.", ev: "evidence",
+        src: "Close-out log: rugby on Thursday and basketball on Saturday are fixed anchors, with no heavy leg work the day before. Phase 4 barbell loading at 85 to 100% was approximated at home because of equipment.",
+        sols: [["R5", "Plan built around fixed sport days"], ["R5", "Equipment-aware swaps, with the deviation from the protocol flagged"]] },
+      { id: "5.3", t: "I want women-specific evidence first, or to be told there isn't any.", ev: "evidence",
+        src: "Standing project standard. Injury research §5 finds almost none for this injury. The competitive scan finds sex-specific guidance largely unclaimed, based on public marketing only.",
+        sols: [["R7", "Flag when no female-specific research exists"], ["R7", "Source ordering: women-specific first, stated when missing"]] }
+    ] },
+  { id: "O6", t: "I need help holding back when I feel good.", ev: "evidence", prd: ["No PRD requirement yet"],
+    note: "Not covered by any PRD requirement. The close-out log records the athlete pushing faster than the tissue was ready, and states this as a risk to encode for future programming.",
+    subs: [
+      { id: "6.1", t: "I push the pace and load before the tissue is ready.", ev: "evidence",
+        src: "Day 28 cross-country: pain 2/10 and multiple falls, with a note to stay aware of the urge to go all in. Day 44: 'pushed harder than I should have'. Patient interview: stops at any pain, does not hold back on good days.",
+        sols: [["R5", "Explicit pace and load caps in the plan, not only pain rules"], ["R4", "On a 'feeling great' check-in, ask about planned load before adding any"]] },
+      { id: "6.2", t: "I'm unsure I can trust the injured side under load.", ev: "inference",
+        src: "Day 28: 'not confident putting a lot of weight on the right foot'. Later logs show confidence returning. The notes list hesitation and avoidance as signs of psychological unreadiness.",
+        sols: [["R4", "Ask about hesitation or avoiding movements"], ["R9", "Graded re-exposure step in the return ladder"]] }
+    ] },
+  { id: "O7", t: "I want to go back to each sport in steps, then stay protected.", ev: "evidence", prd: ["R9", "R11"],
+    note: "Close-out log: a laddered return (skills, team drills, scrimmage, practice, match) with no steps skipped, then permanent calf maintenance twice a week.",
+    subs: [
+      { id: "7.1", t: "I need a clear ladder per sport, and not two contact sports in one week.", ev: "evidence",
+        src: "Injury research §3. The tag rugby log flagged a third sport session in five days as a monitoring factor.",
+        sols: [["R9", "Return ladder per sport with an individual clearance step"], ["R9", "Weekly guard against stacking high-demand contact sessions"]] },
+      { id: "7.2", t: "Once I'm back, I need to keep the calf protected.", ev: "evidence",
+        src: "Maintenance is eccentric heel drops and single-leg raises, twice a week. Phase 5 log shows heel drops slipping to 15, 10, 10. A prior strain is the strongest predictor of the next.",
+        sols: [["R11", "Maintenance schedule with adherence nudges"], ["R11", "Re-injury watch for the first 2 months"], ["R9", "If re-injured, re-enter at the right ladder step, not from scratch"]] }
+    ] },
+  { id: "O8", t: "I want to see how far I've come and share it with my clinician.", ev: "inference", prd: ["R8", "R12"],
+    note: "Lowest-evidence branch. The day-36 gate check shows the value of seeing criteria met versus outstanding, but no interview asks for progress views or sharing.",
+    subs: [
+      { id: "8.1", t: "I want the trend and what's left to meet.", ev: "inference",
+        src: "Inferred from how the close-out log tracked gate criteria and symmetry over time.",
+        sols: [["R8", "Trend lines for pain, strength and symmetry"], ["R3", "Current phase with criteria met and outstanding"]] },
+      { id: "8.2", t: "My physio needs the log and test results in a usable form.", ev: "assumption",
+        src: "No direct evidence. R12 is P2 and the owner already shares data in a working setup.",
+        sols: [["R12", "Exportable summary for a physio visit"]] }
+    ] }
+];
+
+var EVLABEL = { evidence: "● Evidence", inference: "◐ Inference", assumption: "○ Assumption" };
+
+function el(tag, cls, text) {
+  var n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+}
+function chip(kind, text) { return el("span", "chip " + kind, text); }
+
+var tree = document.getElementById("tree");
+OPPS.forEach(function (o) {
+  var d = el("details", "opp" + (o.target ? " is-target" : ""));
+  d.open = true;
+  d.setAttribute("data-ev", o.ev);
+  var s = el("summary");
+  var top = el("div", "opp-top");
+  top.appendChild(el("span", "oid", o.id));
+  if (o.target) top.appendChild(chip("target", "TARGET"));
+  top.appendChild(chip(o.ev, EVLABEL[o.ev]));
+  o.prd.forEach(function (p) { top.appendChild(chip("prd", p)); });
+  top.appendChild(el("span", "caret"));
+  s.appendChild(top);
+  s.appendChild(el("h3", null, o.t));
+  s.appendChild(el("p", "note", o.note));
+  d.appendChild(s);
+  var ul = el("ul", "subs");
+  o.subs.forEach(function (sb) {
+    var li = el("li", "sub");
+    li.setAttribute("data-ev", sb.ev);
+    var st = el("div", "sub-top");
+    st.appendChild(el("span", "sid", sb.id));
+    st.appendChild(chip(sb.ev, EVLABEL[sb.ev]));
+    li.appendChild(st);
+    li.appendChild(el("h4", null, sb.t));
+    li.appendChild(el("p", "src", sb.src));
+    var sols = el("div", "sols");
+    sb.sols.forEach(function (x) {
+      var c = el("span", "sol");
+      c.appendChild(el("b", null, x[0]));
+      c.appendChild(document.createTextNode(x[1]));
+      sols.appendChild(c);
+    });
+    li.appendChild(sols);
+    ul.appendChild(li);
+  });
+  d.appendChild(ul);
+  tree.appendChild(d);
+});
+
+/* controls */
+var filterBox = document.getElementById("evFilter");
+var current = "all";
+[["all", "All"], ["evidence", "● Evidence"], ["inference", "◐ Inference"], ["assumption", "○ Assumption"]].forEach(function (f) {
+  var b = el("button", null, f[1]);
+  b.type = "button";
+  b.setAttribute("aria-pressed", f[0] === "all" ? "true" : "false");
+  b.addEventListener("click", function () {
+    current = f[0];
+    Array.prototype.forEach.call(filterBox.children, function (x) { x.setAttribute("aria-pressed", "false"); });
+    b.setAttribute("aria-pressed", "true");
+    Array.prototype.forEach.call(document.querySelectorAll(".sub"), function (n) {
+      n.classList.toggle("dim", current !== "all" && n.getAttribute("data-ev") !== current);
+    });
+  });
+  filterBox.appendChild(b);
+});
+var solBtn = document.getElementById("toggleSols");
+solBtn.addEventListener("click", function () {
+  var on = solBtn.getAttribute("aria-pressed") === "true";
+  document.body.classList.toggle("hide-sols", on);
+  solBtn.setAttribute("aria-pressed", on ? "false" : "true");
+  solBtn.textContent = "Solution ideas: " + (on ? "off" : "on");
+});
+var allBtn = document.getElementById("toggleAll");
+allBtn.addEventListener("click", function () {
+  var collapse = allBtn.getAttribute("aria-pressed") === "false";
+  Array.prototype.forEach.call(document.querySelectorAll("details.opp"), function (d) { d.open = !collapse; });
+  allBtn.setAttribute("aria-pressed", collapse ? "true" : "false");
+  allBtn.textContent = collapse ? "Expand all" : "Collapse all";
+});
+</script>
