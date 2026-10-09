@@ -54,4 +54,6 @@ Rules:
 
 ## Tools
 - Notion: current source of truth for logging, exercise library and weekly reviews. Read from it; do not write unless asked.
+- Notion pages that feed the PRD and the opportunity tree: "Reverse engineer calf rehab programme" (problem definition), "User interviews" (patient, GP, physio, nutritionist; retrospective, Sep 2026), "Injury definition & research", "Competitive Landscape", "Calf rehab close-out reflections & learnings" (the session-log record) and "Calf recovery tracker & agent" (project idea). Search by these titles.
+- New discovery artefacts (such as the opportunity tree) are committed under `solution_discovery/` and listed in its `README.md`.
 - Lovable and other credit-based tools: confirm before spending credits, and stop and report if credits run out.
